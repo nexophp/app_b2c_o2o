@@ -1,0 +1,83 @@
+/*下拉刷新--内容区,定位于区域底部*/
+.mescroll-downwarp .downwarp-content{
+	height: 150rpx;
+	padding-bottom: 0;
+}
+/*下拉刷新--标语*/
+.mescroll-downwarp .downwarp-slogan{
+	padding: 32rpx 0 0 36rpx;
+	font-size: 26rpx;
+	color: gray;
+}
+/*下拉刷新--进度提示*/
+.mescroll-downwarp .downwarp-text{
+	margin-top: 4rpx;
+	font-size: 22rpx;
+	color: darkgray;
+}
+/*下拉刷新--向下进度动画*/
+.mescroll-downwarp .downwarp-progress{
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: auto;
+	height: auto;
+	border: none;
+	border-radius: 0;
+	margin-right: 0;
+	margin-left: -180rpx;
+	display: flex;
+	align-items: middle;
+}
+/*下拉刷新--人*/
+.mescroll-downwarp .downwarp-man{
+	width: 105rpx;
+	height: 146rpx;
+	transform-origin: left 60%;
+}
+/*下拉刷新--盒子*/
+.mescroll-downwarp .downwarp-box{
+	width: 36rpx;
+	height: 30rpx;
+	margin-top: 60rpx;
+	margin-left: -40rpx;
+	transform-origin: right -100%;
+}
+/*下拉刷新--进度条*/
+.mescroll-downwarp .downwarp-loading{
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -176rpx;
+	width: 100rpx;
+	height: 140rpx;
+	background-size: contain;
+	background-repeat: no-repeat;
+	animation: animManRun .3s steps(1,start) infinite;
+}
+
+@keyframes animManRun {
+	0% {background-image: url(https://www.mescroll.com/img/jingdong/mescroll-progress2.png)}
+	40% {background-image: url(https://www.mescroll.com/img/jingdong/mescroll-progress3.png)}
+	70% {background-image: url(https://www.mescroll.com/img/jingdong/mescroll-progress4.png)}
+	100% {background-image: url(https://www.mescroll.com/img/jingdong/mescroll-progress2.png)}
+}
+
+.mescroll-downwarp .downwarp-loading:before{
+	position: absolute;
+	top: 30rpx;
+	left: 50%;
+	margin-left: -120rpx;
+	content: '';
+	width: 80rpx;
+	height: 140rpx;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-image: url(https://www.mescroll.com/img/jingdong/mescroll-progress5.png);
+}
+
+/*下拉刷新--资源预加载,避免下拉的时候闪白屏*/
+.mescroll-downwarp .downwarp-load-preload {
+	animation: animManRun 1s steps(1, end) 1s;
+	pointer-events: none;
+}

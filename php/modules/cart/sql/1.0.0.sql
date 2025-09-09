@@ -1,0 +1,25 @@
+  
+CREATE TABLE IF NOT EXISTS `cart_item` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cart_id` int DEFAULT NULL COMMENT '购物车ID',
+  `type` varchar(255) DEFAULT 'product' COMMENT '类型',
+  `seller_id` int DEFAULT NULL COMMENT '商家ID',
+  `store_id` int DEFAULT NULL COMMENT '门店ID',
+  `user_id` int DEFAULT NULL COMMENT '用户ID',
+  `product_id` varchar(255) DEFAULT NULL COMMENT '商品ID',
+  `title` varchar(255) DEFAULT NULL COMMENT '商品名称',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '商品单价',
+  `image` varchar(255) DEFAULT NULL COMMENT '商品图片',
+  `amount` decimal(10,2) DEFAULT NULL COMMENT '商品总价',
+  `num` int DEFAULT '1' COMMENT '商品数量',
+  `spec` varchar(255) DEFAULT NULL COMMENT '商品参数1',
+  `attr` varchar(255) DEFAULT NULL COMMENT '商品参数2',
+  `str_1` varchar(255) DEFAULT NULL COMMENT '商品参数1',
+  `str_2` varchar(255) DEFAULT NULL COMMENT '商品参数2',
+  `param_1` json DEFAULT NULL COMMENT '商品参数1',
+  `param_2` json DEFAULT NULL COMMENT '商品参数2',
+  `created_at` int DEFAULT NULL COMMENT '创建时间',
+  `updated_at` int DEFAULT NULL COMMENT '更新时间',
+  `selected` tinyint(1) DEFAULT '1' COMMENT '是否选中',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT '购物车明细';

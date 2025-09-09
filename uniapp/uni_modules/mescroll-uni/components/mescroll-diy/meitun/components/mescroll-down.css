@@ -1,0 +1,47 @@
+/*下拉刷新--内容区,定位于区域底部*/
+.mescroll-downwarp .downwarp-content {
+	padding-bottom: 0;
+}
+/*下拉刷新--进度*/
+.mescroll-downwarp .downwarp-progress {
+	display: inline-block;
+	width: 240rpx;
+	height: 140rpx;
+	border: none;
+	margin: auto;
+	border-radius: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+/*下拉刷新--进度-慢*/
+.mescroll-downwarp .downwarp-progress-slow {
+	animation: animProgress 2s steps(1, end) infinite;
+}
+/*下拉刷新--进度-快*/
+.mescroll-downwarp .downwarp-progress-fast {
+	animation: animProgress 0.6s steps(1, end) infinite;
+}
+@keyframes animProgress {
+	0% {
+		background-image: url(https://www.mescroll.com/img/meitun/mescroll-progress1.png);
+	}
+	16% {
+		background-image: url(https://www.mescroll.com/img/meitun/mescroll-progress2.png);
+	}
+	32% {
+		background-image: url(https://www.mescroll.com/img/meitun/mescroll-progress3.png);
+	}
+	48% {
+		background-image: url(https://www.mescroll.com/img/meitun/mescroll-progress4.png);
+	}
+	64% {
+		background-image: url(https://www.mescroll.com/img/meitun/mescroll-progress5.png);
+	}
+	80% {
+		background-image: url(https://www.mescroll.com/img/meitun/mescroll-progress6.png);
+	}
+	100% {
+		background-image: url(https://www.mescroll.com/img/meitun/mescroll-progress1.png);
+	}
+}

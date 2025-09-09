@@ -1,0 +1,89 @@
+/*下拉刷新*/
+.mescroll-downwarp{
+	background-color: #2B202D;
+	background-image: url(https://www.mescroll.com/img/taobao/mescroll-bg.png);
+	background-size: cover;
+	background-position: 50% 55%;
+}
+
+/*下拉刷新--内容区,定位于区域底部*/
+.mescroll-downwarp .downwarp-content{
+	height: 100rpx;
+	background-image: url(https://www.mescroll.com/img/taobao/mescroll-bg-down.png);
+	background-size: 100% 100%;
+}
+/*下拉刷新--旋转进度条*/
+.mescroll-downwarp .downwarp-progress{
+	position: relative;
+	width: 56rpx;
+	height: 56rpx;
+	border: none;
+}
+/*下拉刷新--旋转进度条-箭头*/
+.mescroll-downwarp .downwarp-progress:after{
+	position: absolute;
+	top: 10rpx;
+	left: 10rpx;
+	content: "";
+	display: inline-block;
+	width: 36rpx;
+	height: 36rpx;
+	background-image: url(https://www.mescroll.com/img/taobao/mescroll-arrow.png);
+	background-size: contain;
+	background-position: center;
+}
+/*下拉刷新--旋转进度条-左右遮罩*/
+.mescroll-downwarp .downwarp-progress .progress-arc{
+	display: inline-block;
+	width: 28rpx;
+	height: 56rpx;
+	overflow: hidden;
+}
+/*下拉刷新--旋转进度条-左半圆*/
+.mescroll-downwarp .progress-left-arc{
+	width: 52rpx;
+	height: 52rpx;
+	border-radius: 50%;
+	border: 1px solid white;
+	border-left-color: transparent;
+	border-bottom-color: transparent;
+	transform: rotate(45deg);
+}
+/*下拉刷新--旋转进度条-右半圆*/
+.mescroll-downwarp .progress-right-arc{
+	width: 52rpx;
+	height: 52rpx;
+	margin-left: -28rpx;
+	border-radius: 50%;
+	border: 1px solid white;
+	border-top-color: transparent;
+	border-right-color: transparent;
+	transform: rotate(45deg);
+}
+
+/*下拉刷新--旋转进度条-旋转中*/
+.mescroll-downwarp .mescroll-rotate.downwarp-progress{
+	width: 52rpx;
+	height: 52rpx;
+	border: 1px solid white;
+}
+.mescroll-downwarp .mescroll-rotate.downwarp-progress .progress-arc,
+.mescroll-downwarp .mescroll-rotate.downwarp-progress:after{
+	display: none;
+}
+
+/*下拉刷新--提示*/
+.mescroll-downwarp .downwarp-tip{
+	min-width: 180rpx;
+	color: white;
+}
+
+/*下拉区域--淘宝二楼显示月亮的动画*/
+.moon-show{
+	transition: none;
+	animation: moonShow 2s linear;
+}
+@keyframes moonShow {
+	50% {height: 200%; }
+	100% {height: 50%; }
+}

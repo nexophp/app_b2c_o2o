@@ -1,0 +1,14 @@
+/vendor
+/composer.lock
+/install/lock 
+/config.ini.php 
+/public/404.html
+/public/index.html
+/public/.htaccess
+/public/nginx.htaccess
+/docs/guide/docs/.vitepress/cache
+/public/openapi.json
+/.htaccess
+/runtime/cache
+/runtime/phplog.log
+/runtime/tmp

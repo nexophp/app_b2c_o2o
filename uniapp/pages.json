@@ -1,0 +1,387 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path" : "pages/home/home",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/cate/cate",
+			"style" : 
+			{
+				"navigationBarTitleText" : "分类"
+			}
+		},
+		{
+			"path" : "pages/cart/cart",
+			"style" : 
+			{
+				"navigationBarTitleText" : "购物车"
+			}
+		},
+		{
+			"path" : "pages/user/user",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/article/article",
+			"style" : 
+			{
+				"navigationBarTitleText" : "文章"
+			}
+		},
+		{
+			"path" : "pages/article/view",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/order/order",
+			"style" : 
+			{
+				"navigationBarTitleText" : "订单"
+			}
+		}, 
+		{
+			"path" : "pages/service/order",
+			"style" : 
+			{
+				"navigationBarTitleText" : "服务订单"
+			}
+		},
+		{
+			"path" : "pages/service/order_view",
+			"style" : 
+			{
+				"navigationBarTitleText" : "查看订单"
+			}
+		},
+		{
+			"path" : "pages/order/view",
+			"style" : 
+			{
+				"navigationBarTitleText" : "查看订单"
+			}
+		},
+		{
+			"path" : "pages/product/product",
+			"style" : 
+			{
+				"navigationBarTitleText" : "商品"
+			}
+		},
+		{
+			"path" : "pages/product/view",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/set/set",
+			"style" : 
+			{
+				"navigationBarTitleText" : "设置"
+			}
+		},
+		{
+			"path" : "pages/store/store",
+			"style" : 
+			{
+				"navigationBarTitleText" : "门店"
+			}
+		},
+		{
+			"path" : "pages/order/confirm",
+			"style" : 
+			{
+				"navigationBarTitleText" : "订单确认"
+			}
+		},
+		{
+			"path" : "pages/order/pay",
+			"style" : 
+			{
+				"navigationBarTitleText" : "支付"
+			}
+		},
+		{
+			"path" : "pages/address/address",
+			"style" : 
+			{
+				"navigationBarTitleText" : "收货地址"
+			}
+		},
+		{
+			"path" : "pages/address/view",
+			"style" : 
+			{
+				"navigationBarTitleText" : "收货地址"
+			}
+		},
+		{
+			"path" : "pages/wallet/wallet",
+			"style" : 
+			{
+				"navigationBarTitleText" : "钱包"
+			}
+		},
+		{
+			"path" : "pages/wallet/view",
+			"style" : 
+			{
+				"navigationBarTitleText" : "钱包"
+			}
+		},
+		{
+			"path" : "pages/wallet/submit",
+			"style" : 
+			{
+				"navigationBarTitleText" : "提现"
+			}
+		},
+		{
+			"path" : "pages/order/apply",
+			"style" : 
+			{
+				"navigationBarTitleText" : "申请售后"
+			}
+		},
+		{
+			"path" : "pages/order/refund",
+			"style" : 
+			{
+				"navigationBarTitleText" : "售后"
+			}
+		},
+		{
+			"path" : "pages/order/refund_view",
+			"style" : 
+			{
+				"navigationBarTitleText" : "售后详情"
+			}
+		},
+		{
+			"path" : "pages/order/logic",
+			"style" : 
+			{
+				"navigationBarTitleText" : "物流信息"
+			}
+		},
+		{
+			"path" : "pages/comment/comment",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/comment/reply",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/service/stat",
+			"style" : 
+			{
+				"navigationBarTitleText" : "服务"
+			}
+		},
+		{
+			"path" : "pages/service/order_cost",
+			"style" : 
+			{
+				"navigationBarTitleText" : "消费记录"
+			}
+		},
+		{
+			"path" : "pages/daka/daka",
+			"style" : 
+			{
+				"navigationBarTitleText" : "考勤"
+
+			}
+		},
+		{
+			"path" : "pages/webview/webview",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/blog/blog",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/blog/view",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/login/login",
+			"style" : 
+			{
+				"navigationBarTitleText" : "登录"
+			}
+		},
+		{
+			"path" : "pages/coupon/coupon",
+			"style" : 
+			{
+				"navigationBarTitleText" : "优惠券"
+			}
+		},
+		{
+			"path" : "pages/coupon/my",
+			"style" : 
+			{
+				"navigationBarTitleText" : "我的优惠券"
+			}
+		},
+		{
+			"path" : "pages/coupon/select",
+			"style" : 
+			{
+				"navigationBarTitleText" : "选择优惠券"
+			}
+		},
+		{
+			"path" : "pages/share_user/share_user",
+			"style" : 
+			{
+				"navigationBarTitleText" : "邀请好友"
+			}
+		},
+		{
+			"path" : "pages/point/point",
+			"style" : 
+			{
+				"navigationBarTitleText" : "积分"
+			}
+		},
+		{
+			"path" : "pages/point/his",
+			"style" : 
+			{
+				"navigationBarTitleText" : "积分记录"
+			}
+		},
+		{
+			"path" : "pages/search/search",
+			"style" : 
+			{
+				"navigationBarTitleText" : "搜索"
+			}
+		},
+		{
+			"path" : "pages/product/list",
+			"style" : 
+			{
+				"navigationBarTitleText" : "商品"
+			}
+		} 
+		
+	],
+	"subPackages": [
+		{
+			"root": "pages_v2",
+			"pages": [ 
+				{
+					"path" : "point_order/order",
+					"style" : 
+					{
+						"navigationBarTitleText" : "订单"
+					}
+				},
+				{
+					"path" : "point_order/confirm",
+					"style" : 
+					{
+						"navigationBarTitleText" : "确认订单"
+
+					}
+				},
+				{
+					"path" : "point_order/view",
+					"style" : 
+					{
+						"navigationBarTitleText" : "订单详情"
+					}
+				}
+			]
+		}
+	],
+
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#888", // 颜色
+		"selectedColor": "#1976D2", // 选中的颜色
+		"borderStyle": "white", // 边框颜色
+		"backgroundColor": "#f9f9f9", // 背景颜色
+		"list": [{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/tab/home.png",
+				"selectedIconPath": "static/tab/home.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/cate/cate",
+				"iconPath": "static/tab/cate.png",
+				"selectedIconPath": "static/tab/cate.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/cart/cart",
+				"iconPath": "static/tab/cart.png",
+				"selectedIconPath": "static/tab/cart.png",
+				"text": "购物车"
+			},
+			
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/tab/my.png",
+				"selectedIconPath": "static/tab/my.png",
+				"text": "我的"
+			}
+		]
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"cl-(.*)": "cl-uni-2/components/cl-$1/cl-$1.vue",
+			"t-(.*)": "@/views/t-$1/t-$1.vue",
+			"^u-(.*)": "dry-uview-ui/components/u-$1/u-$1.vue",
+			"uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue" 
+		}
+	}
+}

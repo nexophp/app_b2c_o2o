@@ -1,0 +1,16 @@
+/*上拉加载--进度条*/
+.mescroll-upwarp .upwarp-progress{
+	display: inline-block;
+	width: 44rpx;
+	height: 44rpx;
+	border: none;
+	background-image: url(https://www.mescroll.com/img/jingdong/mescroll-loading2.png);
+	background-size: contain;
+}
+.mescroll-upwarp .upwarp-loading{
+	display: inline-block;
+	width: 44rpx;
+	height: 44rpx;
+	background-image: url(https://www.mescroll.com/img/jingdong/mescroll-loading1.png);
+	background-size: contain;
+}

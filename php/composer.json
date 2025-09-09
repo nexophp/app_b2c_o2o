@@ -1,0 +1,46 @@
+{
+    "name": "nexophp/nexophp",
+    "type": "library",
+    "description": "",
+    "keywords": [
+        "php"
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "sunkangchina",
+            "email": "68103403@qq.com"
+        }
+    ],
+    "require": { 
+        "nexophp/boot": "dev-main",
+        "tencentcloud/tencentcloud-sdk-php": "dev-master",
+        "aws/aws-sdk-php": "^3.351",
+        "alibabacloud/dysmsapi-20170525": "^3.1",
+        "league/omnipay": "^3.2@dev",
+        "omnipay/paypal": "^3.0@dev",
+        "stripe/stripe-php": "^17.5@beta",
+        "w7corp/easywechat": "6.x-dev",
+        "qcloud/cos-sdk-v5": "^2.6",
+        "aliyuncs/oss-sdk-php": "dev-master",
+        "upyun/sdk": "^2.2",
+        "thefunpower/baidu_nlp": "dev-main",
+        "thefunpower/fapiao": "dev-main",
+        "zircote/swagger-php": "^5",
+        "thefunpower/captcha": "dev-main",
+        "james-heinrich/getid3": "2.0.x-dev",
+        "mpdf/mpdf": "^8",
+        "iio/libmergepdf": "^3",
+        "matthiasmullie/minify": "^1",
+        "thefunpower/calendar": "^2",
+        "fukuball/jieba-php": "^0.42",
+        "elasticsearch/elasticsearch": "^9.0",
+        "openai-php/client": "^0.16"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
+    }
+}
