@@ -757,7 +757,7 @@ Vue.mixin({
 						_this.ajax(_this.config.login.weixin, e.detail).then(res => {
 							if (res.code == 0) {
 								_this.login_success(res.data)
-							}
+							} 
 							uni.reLaunch({
 								url: _this.config.home
 							})

@@ -140,7 +140,7 @@
 					}
 					uni.hideLoading()
 					setTimeout(()=>{
-						this.jump('/pages/index/index')
+						this.jump(this.config.home)
 					},1000)
 				})
 			}

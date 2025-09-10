@@ -21,21 +21,23 @@ class OrderConfirm
                 continue;
             }
             $item_amount = bcmul($price, $num, 2);
-            $real_amount = bcadd($real_amount, $item_amount, 2); 
+            $real_amount = bcadd($real_amount, $item_amount, 2);
             $total_num = bcadd($total_num, $num);
+            $price = bcmul($price,1,2);
             $new_items[] = [
                 'product_id' => $productId,
                 'title' => $item['title'] ?? '',
                 'image' => $item['image'] ?? '',
                 'spec' => $item['spec'] ?? '',
-                'attr' => $item['attr'] ?? '', 
+                'attr' => $item['attr'] ?? '',
                 'price' => $price,
+                'real_price' => $price,
                 'num' => $num,
                 'amount' => $item_amount,
                 'real_amount' => $item_amount,
                 'spec' => $item['spec'] ?? ''
             ];
-        } 
+        }
         $data = [
             'items' => $new_items,
             'amount' => bcmul($real_amount, 1, 2),

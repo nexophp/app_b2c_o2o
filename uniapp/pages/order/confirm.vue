@@ -236,7 +236,7 @@ export default {
 
 			this.loading = true
 			uni.showLoading({
-				title: '创建订单中...'
+				title: '正在提交订单'
 			})
 
 			const items = this.orderGoods.map(item => ({
@@ -261,7 +261,7 @@ export default {
 				phone: this.selectedAddress.phone,
 				name: this.selectedAddress.name,
 				desc: this.orderRemark,
-				coupon: this.confirmData.coupon || '',
+				coupon: this.confirmData.coupon || "",
 				shipping: this.confirmData.shipping || 0,
 
 			}
@@ -270,12 +270,7 @@ export default {
 				uni.hideLoading()
 				this.loading = false
 
-				if (res.code === 0) {
-					uni.showToast({
-						title: '订单创建成功',
-						icon: 'success'
-					})
-
+				if (res.code === 0) { 
 					// 跳转到支付页面
 					setTimeout(() => {
 						uni.navigateTo({
