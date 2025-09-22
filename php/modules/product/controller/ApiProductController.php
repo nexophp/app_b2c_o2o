@@ -48,19 +48,7 @@ class ApiProductController extends \core\ApiController
             $where['title[~]'] = $title;
         }
         if ($type_id) {
-            if (is_array($type_id)) {
-                $type_id_in  = [];
-                foreach ($type_id as $tid) {
-                    $type_in = $this->model->product_type->getTreeId($tid) ?: [];
-                    $type_in[] = $tid;
-                    $type_id_in = array_merge($type_id_in, $type_in);
-                }
-                $where['type_id_last'] = $type_id_in;
-            } else {
-                $type_in = $this->model->product_type->getTreeId($type_id) ?: [];
-                $type_in[] = $type_id;
-                $where['type_id_last'] = $type_in;
-            }
+            get_product_type_where($type_id, $where); 
         }
         if ($brand_id) {
             $where['brand_id'] = $brand_id;

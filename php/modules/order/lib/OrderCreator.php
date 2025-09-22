@@ -68,7 +68,7 @@ class OrderCreator
         if (!empty($orderData['items'])) {
             $this->createOrderItems($orderId, $orderMainData['order_num'], $orderData);
         }
-        do_action('order.create', $orderId); 
+        do_action('order.create', $orderId);
         return [
             'id' => $orderId,
             'order_num' => $orderMainData['order_num']
@@ -107,7 +107,7 @@ class OrderCreator
      */
     private function prepareOrderMainData($orderData)
     {
-       
+
         $orderNum = $this->generateOrderNumber();
 
         return [
@@ -147,37 +147,28 @@ class OrderCreator
     {
         global $user_id;
         $items = [];
-        foreach ($orderData['items'] as $item) {
-            $itemData = [
-                'order_id' => $orderId,
-                'order_num' => $orderNum,
-                'type' => $orderData['type'] ?? 'product',
-                'type_1' => $orderData['type_1'] ?? null,
-                'seller_id' => $orderData['seller_id'] ?? null,
-                'store_id' => $orderData['store_id'] ?? null,
-                'user_id' => $orderData['user_id'],
-                'product_id' => $item['product_id'],
-                'attr' => $item['attr'] ?: '',
-                'spec' => $item['spec'] ?: '',
-                'title' => $item['title'],
-                'ori_price' => $item['ori_price'] ?? $item['price'],
-                'price' => $item['price'],
-                'image' => $item['image'] ?? '',
-                'amount' => $item['price'] * $item['num'],
-                'num' => $item['num'],
-                'real_price' => $item['real_price'] ?? $item['price'],
-                'real_amount' => ($item['real_price'] ?? $item['price']) * $item['num'],
-                'status' => $orderData['status'] ?? 'wait',
-                'str_1' => $item['str_1'] ?? '',
-                'str_2' => $item['str_2'] ?? '',
-                'can_refund_num' => $item['num'],
-                'refund_num' => 0,
-                'can_refund_amount' => ($item['real_price'] ?? $item['price']) * $item['num'],
-                'has_refund_amount' => 0,
-                'real_get_amount' => 0,
-                'created_at' => time(),
-                'updated_at' => time()
-            ];
+        $old_items = $orderData['items'];
+        $res = OrderConfirm::confirm($old_items);
+        foreach ($res['items'] as $item) {
+            $itemData = $item;
+            $itemData['order_id'] = $orderId;
+            $itemData['order_num'] = $orderNum;
+            $itemData['order_num'] = $orderData['type'] ?? 'product';
+            $itemData['status'] = $orderData['status'] ?? 'wait';
+            $itemData['type_1'] = $orderData['type_1'] ?? null;
+            $itemData['seller_id'] = $orderData['seller_id'] ?? null;
+            $itemData['store_id'] = $orderData['store_id'] ?? null;
+            $itemData['user_id'] = $orderData['user_id'] ?? null;
+            $itemData['str_1'] = $item['str_1'] ?? '';
+            $itemData['str_2'] = $item['str_2'] ?? '';
+            $itemData['can_refund_num'] = $item['num'];
+            $itemData['refund_num'] = 0;
+            $itemData['can_refund_amount'] = $item['real_amount'];
+            $itemData['real_get_amount'] = $item['real_amount'];
+            $itemData['has_refund_amount'] = 0;
+            $itemData['created_at'] = time();
+            $itemData['updated_at'] = time();
+
             if ($item['param_1'] && is_array($item['param_1'])) {
                 $itemData['param_1'] = $item['param_1'];
             }

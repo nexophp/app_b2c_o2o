@@ -89,7 +89,7 @@ class OrderModel extends \core\AppModel
         }
         $data['ship_type_txt'] =  $this->getAttrShipTypeText($data['ship_type']);
         $info = $this->info;
-        $data['info'] = $info;
+        $data['info'] = $info?:[];
 
 
         $can_pay_time = 0;
@@ -135,11 +135,9 @@ class OrderModel extends \core\AppModel
     public function getPaymentTypes()
     {
         return [
-            ['value' => 'offline_transfer', 'label' => lang('线下转账收款')],
-            ['value' => 'wechat', 'label' => lang('微信支付')],
+            ['value' => 'offline_transfer', 'label' => lang('线下转账收款')], 
             ['value' => 'alipay', 'label' => lang('支付宝')],
-            ['value' => 'bank_card', 'label' => lang('银行卡支付')],
-            ['value' => 'other', 'label' => lang('其他方式')]
+            ['value' => 'weixin', 'label' => lang('微信')], 
         ];
     }
 

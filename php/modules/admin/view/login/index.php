@@ -1,4 +1,4 @@
-<?php 
+<?php
 view_header(lang('登录'));
 
 ?>
@@ -8,74 +8,78 @@ view_header(lang('登录'));
     <div class="login-bg-overlay"></div>
     <div class="login-container">
         <div class="login-header">
-            <div class="login-title"><?=lang('登录')?></div>
-            <div class="login-subtitle"><?=lang('请输入账号密码')?></div>
+            <div class="login-title"><?= lang('登录') ?></div>
+            <div class="login-subtitle"><?= lang('请输入账号密码') ?></div>
         </div>
-        
-        <?php 
+
+        <?php
         element\form::$model = 'form';
-        echo element('form',[ 
-            ['type'=>'open','model'=>'form'],
+        echo element('form', [
+            ['type' => 'open', 'model' => 'form'],
             [
-                'type'=>'input',
-                'name'=>'username',
-                'attr'=>['required'],
-                'attr_element'=>[
-                    'placeholder'=>lang('账号|邮箱|手机号'),
-                    'prefix-icon'=>'el-icon-user',
-                    'value'=>''
+                'type' => 'input',
+                'name' => 'username',
+                'attr' => ['required'],
+                'attr_element' => [
+                    'placeholder' => lang('账号|邮箱|手机号'),
+                    'prefix-icon' => 'el-icon-user',
+                    'value' => ''
                 ],
             ],
             [
-                'type'=>'input',
-                'name'=>'password',
-                'attr'=>['required'],
-                'attr_element'=>[
-                    'placeholder'=>lang('密码'),
-                    'prefix-icon'=>'el-icon-lock',
-                    'show-password'=>true,
-                    'type'=>'password'
+                'type' => 'input',
+                'name' => 'password',
+                'attr' => ['required'],
+                'attr_element' => [
+                    'placeholder' => lang('密码'),
+                    'prefix-icon' => 'el-icon-lock',
+                    'show-password' => true,
+                    'type' => 'password'
                 ],
             ],
             [
-                'type'=>'html',
-                'html'=>'<el-form-item>
+                'type' => 'html',
+                'html' => '<el-form-item>
                     <el-button 
                         type="primary" 
                         @click="login_click"
                         style="width: 100%;"
                         :loading="loading"
                     >
-                       '.lang('登录').'
+                       ' . lang('登录') . '
 
                     </el-button>
                 </el-form-item>'
             ],
-            ['type'=>'close']
+            ['type' => 'close']
         ]);
         ?>
-        
-        
-        <?php 
-        include __DIR__.'/login-footer.php';
-        ?> 
+
+
+        <?php
+        include __DIR__ . '/login-footer.php';
+        ?>
     </div>
 </div>
 
-<?php 
+<?php
 global $vue;
-$vue->data("loading",false);
+$vue->data("loading", false);
 $vue->data("form", [
     'username' => '',
     'password' => ''
 ]);
-$vue->method("login_click()","
+$vue->method("login_click()", "
     this.login();
 ");
-$vue->method("login()","
+$vue->method("login()", "
     this.loading = true;
     ajax('/admin/login/account',this.form,function(res){
-        ".vue_message()."
+        if(res.jump){
+            window.location.href = res.jump;
+            return;
+        }
+        " . vue_message() . "
         if(res.code == 0){
            setTimeout(function(){
                 window.location.href = '/admin/site';
@@ -86,6 +90,6 @@ $vue->method("login()","
 ");
 ?>
 
-<?php 
+<?php
 view_footer();
-?> 
+?>

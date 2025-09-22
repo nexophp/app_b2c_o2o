@@ -22,9 +22,8 @@ trait OrderTrait
             json_error(['msg' => lang('订单编号不能为空')]);
         }
         $result = OrderLogic::get($order_num);
-        if($result['data']['code'] == 250){
+        if ($result['data']['code'] == 250) {
             json_error(['msg' => $result['data']['msg']]);
-
         }
         $result['code'] = 0;
         json($result);
@@ -206,11 +205,11 @@ trait OrderTrait
         // 获取订单商品明细
         $order['items'] = $order->products;
         // 获取支付信息
-        $paymentInfo = $order->paid_info;
-        // 为支付信息添加格式化时间
-        foreach ($paymentInfo as &$payment) {
-            $payment['created_at_format'] = date('Y-m-d H:i:s', $payment['created_at']);
-            $payment['type_info'] = $payment->type_info;
+        $paymentInfo = $order->paid_info; 
+        // 为支付信息添加格式化时间 
+        foreach ($paymentInfo as $payment) {
+            $payment->type_info = $payment->type_info;
+            $payment->created_at_format = date('Y-m-d H:i:s', $payment->created_at);
         }
         $order['payment_info'] = $paymentInfo;
         json_success(['data' => $order]);
@@ -249,7 +248,7 @@ trait OrderTrait
             $orderAmount = $this->model->order->sum('real_amount', [
                 'created_at[>=]' => $startTime,
                 'created_at[<=]' => $endTime,
-                'status[!]' => ['wait','cancel','delete'],  
+                'status[!]' => ['wait', 'cancel', 'delete'],
                 'type' => $this->type,
                 'user_tag' => $this->user_tag,
 
@@ -274,10 +273,10 @@ trait OrderTrait
         $where = [];
 
         // 添加用户标签判断
-        if($this->user_tag){
+        if ($this->user_tag) {
             $where['user_tag'] = $this->user_tag;
         }
-        if($this->type){
+        if ($this->type) {
             $where['type'] = $this->type;
         }
         // 搜索条件
@@ -303,18 +302,17 @@ trait OrderTrait
             $where['created_at[<=]'] = strtotime($end_date . ' 23:59:59');
         }
 
-        $where['ORDER'] = ['id' => 'DESC']; 
+        $where['ORDER'] = ['id' => 'DESC'];
 
         $list = $this->model->order->pager($where);
 
         // 格式化数据
-        foreach ($list['data'] as &$order) { 
+        foreach ($list['data'] as &$order) {
             $order['created_at_format'] = date('Y-m-d H:i:s', $order['created_at']);
             $order['updated_at_format'] = $order['updated_at'] ? date('Y-m-d H:i:s', $order['updated_at']) : '';
 
             // 获取订单商品
             $order->items = $order->products;
-
         }
 
         json($list);

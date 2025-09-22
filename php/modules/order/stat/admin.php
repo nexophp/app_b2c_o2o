@@ -16,16 +16,15 @@ add_action("admin.index", function () {
     $todayOrders = $orderModel->count([
         'created_at[>=]' => $today[0],
         'created_at[<]' => $today[1],
-        'status'=>'complete',
-        'sys_tag' => 'admin',
+        'status' => ['paid', 'shipped', 'complete'],
+        'real_get_amount[>]' => 0,
     ]);
 
     // 今日销售额
-    $todaySalesAmount = $orderModel->sum('amount', [
+    $todaySalesAmount = $orderModel->sum('real_get_amount', [
         'created_at[>=]' => $today[0],
         'created_at[<]' => $today[1],
         'sys_tag' => 'admin',
-        'status'=>'complete',
     ]);
     $todaySales = '¥' . number_format($todaySalesAmount, 2);
 
@@ -33,16 +32,16 @@ add_action("admin.index", function () {
     $yesterdayOrders = $orderModel->count([
         'created_at[>=]' => $yesterday[0],
         'created_at[<]' => $yesterday[1],
-        'sys_tag' => 'admin',
-        'status'=>'complete',
+        'status' => ['paid', 'shipped', 'complete'],
+        'real_get_amount[>]' => 0,
     ]);
 
     // 昨日销售额
-    $yesterdaySalesAmount = $orderModel->sum('amount', [
+    $yesterdaySalesAmount = $orderModel->sum('real_get_amount', [
         'created_at[>=]' => $yesterday[0],
         'created_at[<]' => $yesterday[1],
-        'sys_tag' => 'admin',
-        'status'=>'complete',
+        'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
     ]);
     $yesterdaySales = '¥' . number_format($yesterdaySalesAmount, 2);
 
@@ -50,16 +49,16 @@ add_action("admin.index", function () {
     $thisMonthOrders = $orderModel->count([
         'created_at[>=]' => $thisMonth[0],
         'created_at[<]' => $thisMonth[1],
-        'status'=>'complete',
-        'sys_tag' => 'admin',
+        'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
     ]);
 
     // 本月销售额
-    $thisMonthSalesAmount = $orderModel->sum('amount', [
+    $thisMonthSalesAmount = $orderModel->sum('real_get_amount', [
         'created_at[>=]' => $thisMonth[0],
         'created_at[<]' => $thisMonth[1],
-        'sys_tag' => 'admin',
-        'status'=>'complete',
+        'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
     ]);
     $thisMonthSales = '¥' . number_format($thisMonthSalesAmount, 2);
 
@@ -67,16 +66,16 @@ add_action("admin.index", function () {
     $lastMonthOrders = $orderModel->count([
         'created_at[>=]' => $lastMonth[0],
         'created_at[<]' => $lastMonth[1],
-        'status'=>'complete',
-        'sys_tag' => 'admin',
+        'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
     ]);
 
     // 上月销售额
-    $lastMonthSalesAmount = $orderModel->sum('amount', [
+    $lastMonthSalesAmount = $orderModel->sum('real_get_amount', [
         'created_at[>=]' => $lastMonth[0],
         'created_at[<]' => $lastMonth[1],
-        'sys_tag' => 'admin',
-        'status'=>'complete',
+        'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
     ]);
     $lastMonthSales = '¥' . number_format($lastMonthSalesAmount, 2);
 
@@ -84,12 +83,10 @@ add_action("admin.index", function () {
     // 待处理订单（状态为wait的订单）
     $pendingOrders = $orderModel->count([
         'status' => 'paid',
-        'sys_tag' => 'admin',
     ]);
 
-    $pendingOrdersAmount = $orderModel->sum('amount', [
+    $pendingOrdersAmount = $orderModel->sum('real_get_amount', [
         'status' => 'paid',
-        'sys_tag' => 'admin',
     ]);
     $pendingOrdersAmount = '¥' . number_format($pendingOrdersAmount, 2);
 
@@ -103,14 +100,14 @@ add_action("admin.index", function () {
         $lineCount[] = $orderModel->count([
             'created_at[>=]' => $date . ' 00:00:00',
             'created_at[<]' => $date . ' 23:59:59',
-            'sys_tag' => 'admin',
-            'status'=>'complete',
+            'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
         ]);
-        $lineSum[] = $orderModel->sum('amount', [
+        $lineSum[] = $orderModel->sum('real_get_amount', [
             'created_at[>=]' => $date . ' 00:00:00',
             'created_at[<]' => $date . ' 23:59:59',
-            'sys_tag' => 'admin',
-            'status'=>'complete',
+            'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
         ]);
     }
     $xAxis = array_reverse($xAxis);
@@ -129,14 +126,14 @@ add_action("admin.index", function () {
         $monthCount = $orderModel->count([
             'created_at[>=]' => $start,
             'created_at[<]' => $end,
-            'sys_tag' => 'admin',
-            'status'=>'complete',
+            'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
         ]);
-        $monthSum = $orderModel->sum('amount', [
+        $monthSum = $orderModel->sum('real_get_amount', [
             'created_at[>=]' => $start,
             'created_at[<]' => $end,
-            'sys_tag' => 'admin',
-            'status'=>'complete',
+            'status'=>['paid','shipped','complete'], 
+        'real_get_amount[>]'=>0,
         ]);
         $xAxis[] = date("Y-m", $start);
         $lineCount[] = $monthCount;

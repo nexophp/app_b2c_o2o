@@ -69,25 +69,7 @@ class ApiController extends \core\ApiController
     )]
     public function actionStat()
     {
-        $list = [
-            'wait',
-            'shipped',
-            'completed',
-            'paid',
-        ];
-        $data = [];
-        foreach ($list as $key => $value) {
-            $where = [
-                'user_id' => $this->uid,
-                'status' => $value,
-                'type' => $this->type,
-
-            ];
-            if ($this->sys_tag) {
-                $where['sys_tag'] = $this->sys_tag;
-            }
-            $data[$value] = $this->model->order->count($where);
-        }
+        $data = get_order_stat_list($this->uid, $this->type, $this->sys_tag);
         return json_success(['data' => $data]);
     }
     /**
@@ -153,7 +135,7 @@ class ApiController extends \core\ApiController
         if (!$order) {
             return json_error(['msg' => lang('订单不存在')]);
         }
-        if($order->status == 'delete'){
+        if ($order->status == 'delete') {
             return json_error(['msg' => lang('订单不存在')]);
         }
         $order->products;
@@ -169,6 +151,9 @@ class ApiController extends \core\ApiController
                 OrderClose::do($order->id);
             });
         }
+        $order->products;
+
+        $order->address = get_clean_address($order->address);
         return json_success(['data' => $order]);
     }
 
@@ -292,6 +277,10 @@ class ApiController extends \core\ApiController
             return json_error(['msg' => lang('状态错误')]);
         }
 
+        if ($status == 'cancel' && in_array($order['status'], ['paid', 'complete'])) {
+            return json_error(['msg' => lang('已支付或已完成订单不能取消')]);
+        }
+
         db_action(function () use ($id, $status, &$result) {
             $result = $this->model->order->update(['status' => $status], ['id' => $id, 'user_id' => $this->uid], true);
             if ($status == 'cancel') {
@@ -363,7 +352,7 @@ class ApiController extends \core\ApiController
             return json_error(['msg' => lang('商品列表不能为空')]);
         }
         return json_success([
-            'data' => OrderConfirm::confirm($items, $couponId, $addressId),
+            'data' => OrderConfirm::confirm($items),
             'msg' => lang('订单确认成功')
         ]);
     }

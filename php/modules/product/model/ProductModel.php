@@ -27,7 +27,7 @@ class ProductModel extends \core\AppModel
         'has_product_type' => [ProductTypeModel::class, 'type_id_last'],
     ];
 
-    protected $has_many = [ 
+    protected $has_many = [
         'product_spec' => [ProductSpecModel::class, 'product_id', 'id', ['LIMIT' => 500]],
     ];
 
@@ -44,7 +44,8 @@ class ProductModel extends \core\AppModel
     /**
      * 属性数组
      */
-    public function getAttrNewAttr(){
+    public function getAttrNewAttr()
+    {
         $new_attr = [];
         $attr = $this->attr;
         if ($attr) {
@@ -63,7 +64,7 @@ class ProductModel extends \core\AppModel
         parent::beforeSave($data);
         $data['images'] = $data['images'] ?: [];
         $type_id = $data['type_id'];
-        if ($type_id && is_array($type_id)) { 
+        if ($type_id && is_array($type_id)) {
             $data['type_id_last'] = end($type_id);
         }
         if ($data['spec_type'] == 1) {
@@ -82,7 +83,7 @@ class ProductModel extends \core\AppModel
             if (!$flag) {
                 json_error(['msg' => lang('规格名、价格必填')]);
             }
-        }  
+        }
         $attr = $data['attr'];
         if ($attr) {
             foreach ($attr as $v) {
@@ -97,9 +98,51 @@ class ProductModel extends \core\AppModel
             $data['attr'] = $new_attr;
         }
         global $admin_type;
-        $data['user_tag'] = $admin_type; 
-        
+        if ($admin_type) {
+            $data['user_tag'] = $admin_type;
+        }
+        $this->checkSku($data);
     }
+    /**
+     * 检查商品唯一码是否存在
+     */
+    protected function checkSku($data)
+    {
+        $id = $data['id'] ?? 0;
+        $spec_type = $data['spec_type'] ?? '';
+        //多规格
+        if ($spec_type == 2) {
+            foreach ($data['spec'] as $v) {
+                $sku = $v['sku'] ?? '';
+                $this->checkSkuExist($sku, $id);
+            }
+        } else {
+            $sku = $data['sku'] ?? '';
+            $this->checkSkuExist($sku, $id);
+        }
+    }
+    /**
+     * 检查商品唯一码是否存在
+     */
+    protected function checkSkuExist($sku, $id = 0)
+    {
+        if (!$sku) {
+            return;
+        }
+        $where = [
+            'sku' => $sku,
+        ];
+        $info = db_get_one("product_spec", "*", $where);
+        if ($info && $info['product_id'] != $id) {
+            json_error(['msg' => lang('商品唯一码已存在') . " " . $sku]);
+        }
+        $info = db_get_one("product", "*", $where);
+        if ($info && $info['id'] != $id) {
+            json_error(['msg' => lang('商品唯一码已存在') . " " . $sku]);
+        }
+    }
+
+
 
     public function afterSave($data)
     {

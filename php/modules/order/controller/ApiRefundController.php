@@ -6,6 +6,8 @@ use modules\order\lib\OrderRefund;
 use modules\order\model\OrderModel;
 use Exception;
 use OpenApi\Attributes as OA;
+use modules\order\model\OrderItemModel;
+use modules\order\model\OrderRefundItemModel;
 
 #[OA\Tag(name: '退款', description: '退款管理接口')]
 class ApiRefundController extends \core\ApiController
@@ -16,6 +18,7 @@ class ApiRefundController extends \core\ApiController
         'order_item' => '\modules\order\model\OrderItemModel',
         'order_paid_info' => '\modules\order\model\OrderPaidInfoModel',
         'order_refund' => '\modules\order\model\OrderRefundModel',
+        'order_refund_item' => '\modules\order\model\OrderRefundItemModel',
     ];
     /**
      * 商家收货信息
@@ -74,7 +77,7 @@ class ApiRefundController extends \core\ApiController
         if (!$order) {
             json_error(['msg' => lang('订单不存在')]);
         }
-        if($order->can_refund_amount <= 0){
+        if ($order->can_refund_amount <= 0) {
             json_error(['msg' => lang('订单可退款金额不足')]);
         }
         $result = OrderRefund::create($order_id, $order_item_ids, $type, $reason, $desc, $images, $address);
@@ -105,7 +108,7 @@ class ApiRefundController extends \core\ApiController
         if ($status !== '') {
             $where['status'] = $status;
         }
-
+        $where['ORDER'] = ['id' => 'DESC'];
         $result = $this->model->order_refund->pager($where);
 
         // 加载关联的订单信息
@@ -143,7 +146,7 @@ class ApiRefundController extends \core\ApiController
         // 加载关联信息
         $refund->order;
         $refund->items;
-
+        $refund->logic_info = $refund->logic_info;
         return json_success(['data' => $refund]);
     }
     /**
@@ -172,7 +175,16 @@ class ApiRefundController extends \core\ApiController
         if ($refund->status != 'wait') {
             return json_error(['msg' => lang('退款申请已处理，不能取消')]);
         }
-        $this->model->order_refund->update(['status' => 'cancel'], ['id' => $id], true);
+        db_action(function () use ($id,$refund) {
+            $this->model->order_refund->update(['status' => 'cancel'], ['id' => $id], true);
+            $this->model->order_refund_item->update(['status' => 'cancel'], ['refund_id' => $id], true);
+            $items = $this->model->order_refund_item->findAll(['refund_id' => $id]);
+            $type = $refund->type;
+            if(in_array($type,['return','refund'])){
+                OrderRefund::returnItems($items);
+            }
+        });
+
         json_success(['msg' => lang('取消成功')]);
     }
 
@@ -228,10 +240,9 @@ class ApiRefundController extends \core\ApiController
                 'status' => 'wait',
                 'updated_at' => time(),
             ], [
-                'id' => $logistic->id,
+                'id' => $logistic['id'],
             ], true);
         }
         json_success(['msg' => lang('提交成功')]);
-    } 
-   
+    }
 }

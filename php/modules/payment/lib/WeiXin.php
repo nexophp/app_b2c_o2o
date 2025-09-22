@@ -281,18 +281,21 @@ class WeiXin
             ];
             add_log('微信支付查寻', $data, 'debug');
             do_action('payment_success', $data);
+            $res['is_paid'] = true;
+        }else{
+            $res['is_paid'] = false;
         }
         return $res;
     }
     /**
      * 扫用户付款码
      * https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10&index=1
-     * $res = get_pack('pay.weixin', 'pos', [[
+     * [
      *    'order_num' => $order_num,
      *    'total_fee' => $total_fee,
      *    'auth_code' => $auth_code,
      *    'body' => $body,
-     * ]]);
+     * ]
      */
     public static function pos($req = [])
     {

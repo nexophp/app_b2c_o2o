@@ -7,7 +7,7 @@ class OrderConfirm
     /**
      * 确认订单，记录金额
      */
-    public static function confirm($items, $addressId = 0)
+    public static function confirm($items)
     {
         // 计算商品总价
         $real_amount = 0;
@@ -16,14 +16,16 @@ class OrderConfirm
         foreach ($items as $item) {
             $productId = $item['product_id'] ?? '';
             $num = intval($item['num'] ?? 1);
-            $price = floatval($item['price'] ?? 0);
+            $spec = $item['spec'] ?? '';
+            $attr = $item['attr'] ?? '';
+            $price = get_product_price($productId, $spec);
             if (empty($productId) || $num <= 0 || $price <= 0) {
                 continue;
-            }
+            } 
             $item_amount = bcmul($price, $num, 2);
             $real_amount = bcadd($real_amount, $item_amount, 2);
             $total_num = bcadd($total_num, $num);
-            $price = bcmul($price,1,2);
+            $price = bcmul($price, 1, 2);
             $new_items[] = [
                 'product_id' => $productId,
                 'title' => $item['title'] ?? '',
@@ -35,7 +37,7 @@ class OrderConfirm
                 'num' => $num,
                 'amount' => $item_amount,
                 'real_amount' => $item_amount,
-                'spec' => $item['spec'] ?? ''
+                'spec' => $item['spec'] ?? '', 
             ];
         }
         $data = [

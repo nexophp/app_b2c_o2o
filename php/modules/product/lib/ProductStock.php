@@ -1,7 +1,9 @@
 <?php
+
 /**
  * 商品库存
  */
+
 namespace modules\product\lib;
 
 class ProductStock
@@ -12,6 +14,12 @@ class ProductStock
      */
     public static function check($item)
     {
+        // 不检测库存
+        $no_check_stock = get_config('no_check_stock');
+        if ($no_check_stock == 1) {
+            return true;
+        }
+
         if ($item['spec']) {
             $where = [
                 'title' => $item['spec'],
@@ -39,6 +47,15 @@ class ProductStock
      */
     public static function down($item, $action = '-')
     {
+        $product_type = db_get_one("product", "product_type", ['id' => $item['product_id']]);
+        if (strpos($product_type, 'product') === false) {
+            return true;
+        }
+        // 不检测库存
+        $no_check_stock = get_config('no_check_stock');
+        if ($no_check_stock == 1) {
+            return true;
+        }
         // 减少商品库存
         if ($item['spec']) {
             $where = [

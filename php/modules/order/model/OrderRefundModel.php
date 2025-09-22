@@ -2,6 +2,8 @@
 
 namespace modules\order\model;
 
+use modules\order\lib\OrderLogic;
+
 class OrderRefundModel extends \core\AppModel
 {
     protected $table = 'order_refund';
@@ -35,6 +37,16 @@ class OrderRefundModel extends \core\AppModel
         'order' => [OrderModel::class, 'order_id', 'id'],
     ];
 
+    public function getAttrLogicInfo()
+    {
+        $order_num = $this->data['order_num'];
+        if (!$order_num) {
+            return [];
+        }
+        $logic_info = OrderLogic::get($order_num);
+        return  $logic_info;
+    }
+
     public function afterFind(&$data)
     {
         parent::afterFind($data);
@@ -42,13 +54,15 @@ class OrderRefundModel extends \core\AppModel
         $data['updated_at_format'] = date('Y-m-d H:i:s', $data['updated_at']);
         $data['status_text'] = [
             'wait' => '待审核',
-            'approved' => '已审核',
-            'rejected' => '已拒绝',
+            'approved' => '通过',
+            'rejected' => '拒绝',
+            'cancel' => '取消',
         ][$data['status'] ?? ''] ?? '';
         $data['status_color'] = [
             'wait' => '#FF9900',
             'approved' => '#009900',
             'rejected' => '#FF0000',
+            'cancel' => '#999999',
         ][$data['status'] ?? ''] ?? '';
     }
 
@@ -80,6 +94,7 @@ class OrderRefundModel extends \core\AppModel
             $this->update($data, ['id' => $id], true);
             OrderRefundItemModel::model()->update(['status' => $data['status']], ['refund_id' => $id], true);
             OrderModel::model()->update(['status' => 'complete'], ['id' => $order->id], true);
+            $items = $refund->items;
             $status = $data['status'] ?? '';
             if ($status == 'approved') {
                 //退款处理
@@ -89,7 +104,7 @@ class OrderRefundModel extends \core\AppModel
                         'has_refund_amount' => bcadd($order->has_refund_amount, $amount, 2),
                         'real_get_amount' => bcsub($order->real_get_amount, $amount, 2),
                     ], ['id' => $order->id], true);
-                    
+
                     db_insert("order_refund_money", [
                         'order_id' => $order->id,
                         'user_id' => $order->uid,

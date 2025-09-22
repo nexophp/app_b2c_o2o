@@ -87,8 +87,13 @@ class LoginController extends \core\AppController
         if (!$find) {
             json_error(['msg' => lang('帐号不存在')]);
         }
+        if(!$find['password']){
+            json_error(['msg' => lang('帐号未设置密码'),'jump'=>'/admin/login/phone']);
+        }
+        
         if (password_verify($password, $find['password'])) {
-            $time = time() + 86400 * 365 * 5;
+            do_action("admin.login",$find);
+            $time = get_admin_login_cookie_time();
             cookie('uid', $find['id'], $time);
             add_log('登录成功',[
                 'username' => $username,
@@ -159,9 +164,9 @@ class LoginController extends \core\AppController
         if (!$user) {
             return json_error(['msg' => lang('该邮箱未注册')]);
         }
-        
+        do_action("admin.login",$user);
         // 登录成功，设置cookie
-        $time = time() + 86400 * 365 * 5;
+        $time = get_admin_login_cookie_time();
         cookie('uid', $user['id'], $time);
         
         // 清除验证码缓存
@@ -242,9 +247,9 @@ class LoginController extends \core\AppController
         if (!$user) {
             return json_error(['msg' => lang('该手机号未注册')]);
         }
-        
+        do_action("admin.login",$user);
         // 登录成功，设置cookie
-        $time = time() + 86400 * 365 * 5;
+        $time = get_admin_login_cookie_time();
         cookie('uid', $user['id'], $time);
         
         // 清除验证码缓存

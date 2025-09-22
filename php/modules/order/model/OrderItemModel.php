@@ -17,7 +17,11 @@ class OrderItemModel extends \core\AppModel
 
     protected $validate = [
         'required' => [
-            'order_id', 'product_id', 'title', 'price', 'num'
+            'order_id',
+            'product_id',
+            'title',
+            'price',
+            'num'
         ]
     ];
 
@@ -28,17 +32,20 @@ class OrderItemModel extends \core\AppModel
         if (isset($data['created_at'])) {
             $data['created_at_format'] = date('Y-m-d H:i:s', $data['created_at']);
         }
+        if (strpos($data['image'], '://') === false) {
+            $data['image'] =  cdn() . $data['image'];
+        }
     }
 
     public function beforeSave(&$data)
     {
         parent::beforeSave($data);
-        
+
         // 计算总价
         if (isset($data['price']) && isset($data['num'])) {
             $data['amount'] = $data['price'] * $data['num'];
         }
-        
+
         // 设置创建时间
         if (empty($data['id'])) {
             $data['created_at'] = time();

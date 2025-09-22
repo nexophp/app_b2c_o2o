@@ -487,7 +487,7 @@ echo element("pager", [
                     <th><?php echo lang('支付标题'); ?></th>
                     <th><?php echo lang('支付金额'); ?></th>
                     <th><?php echo lang('备注'); ?></th>
-                    <th><?php echo lang('支付时间'); ?></th>
+                    <th style="width:180px;"><?php echo lang('支付时间'); ?></th>
                 </tr>
             </thead>
             <tbody>

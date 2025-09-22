@@ -47,6 +47,14 @@ global $homepages;
     </div>
     <div class="card-body">
         <form>
+            <div class="mb-4">
+                <div class="col-md-4">
+                    <label for="" class="form-label"><?= lang('网站Logo') ?></label>
+                    <div>
+                        <?= vue_upload_image($name = 'logo', $top = 'form') ?>
+                    </div>
+                </div>
+            </div>
             <!-- 基础设置 -->
             <div class="mb-4">
                 <h6 class="fw-bold mb-3 border-bottom pb-2">
@@ -55,8 +63,8 @@ global $homepages;
 
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <label for="siteName" class="form-label"><?= lang('站点名称') ?></label>
-                        <input type="text" v-model="form.app_name" class="form-control" id="siteName" value="">
+                        <label for="" class="form-label"><?= lang('站点名称') ?></label>
+                        <input type="text" v-model="form.app_name" class="form-control" id="" value="">
                     </div>
 
                     <div class="col-md-3">
@@ -97,24 +105,26 @@ global $homepages;
 
 
             <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="siteName" class="form-label"><?= lang('网站备案号') ?></label>
+                
+
+                <div class="col-md-4">
+                    <label for="" class="form-label"><?= lang('网站备案号') ?></label>
                     <input type="text" v-model="form.app_beian" class="form-control" value="">
                 </div>
 
-                <div class="col-md-6">
-                    <label for="siteName" class="form-label"><?= lang('公安备案号') ?></label>
+                <div class="col-md-4">
+                    <label for="" class="form-label"><?= lang('公安备案号') ?></label>
                     <input type="text" v-model="form.app_ga_beian" class="form-control" value="">
                 </div>
             </div>
 
             <div class="row g-3 mt-2">
                 <div class="col-md-6">
-                    <label for="siteName" class="form-label"><?= lang('联系电话') ?></label>
+                    <label for="" class="form-label"><?= lang('联系电话') ?></label>
                     <input v-model="form.app_phone" class="form-control"></input>
                 </div>
                 <div class="col-md-6">
-                    <label for="siteName" class="form-label"><?= lang('网站统计代码') ?></label>
+                    <label for="" class="form-label"><?= lang('网站统计代码') ?></label>
                     <textarea v-model="form.app_footer" class="form-control">{{form.app_footer}}</textarea>
                 </div>
             </div>
@@ -123,7 +133,7 @@ global $homepages;
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="siteName" class="form-label"><?= lang('上传文件类型') ?></label>
+                        <label for="" class="form-label"><?= lang('上传文件类型') ?></label>
                         <div>
                             <el-select class="" multiple v-model="form.upload_mime" style="width: 90%;">
                                 <?php
@@ -140,12 +150,12 @@ global $homepages;
                     </div>
 
                     <div class="col-md-4">
-                        <label for="siteName" class="form-label"><?= lang('上传文件大小') ?>/MB</label>
+                        <label for="" class="form-label"><?= lang('上传文件大小') ?>/MB</label>
                         <input type="text" v-model="form.upload_size" class="form-control" value="MB">
                     </div>
 
                     <div class="col-md-4">
-                        <label for="siteName" class="form-label"><?= lang('每页显示条数') ?></label>
+                        <label for="" class="form-label"><?= lang('每页显示条数') ?></label>
                         <input type="text" v-model="form.per_page" class="form-control" value="">
                     </div>
                 </div>

@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS `product` (
   `price` decimal(10,2) DEFAULT '0.00' COMMENT '商品价格',
   `stock` int DEFAULT '0' COMMENT '商品库存',
 
+  `score` decimal(3,1) DEFAULT '5.0' COMMENT '商品评分',
+
   `comment` int DEFAULT '0' COMMENT '商品评论数',
 
   `sys_tag` varchar(50) DEFAULT 'product' COMMENT '系统标签',

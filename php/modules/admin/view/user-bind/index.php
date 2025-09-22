@@ -95,7 +95,7 @@ add_css("
 
 view_header(lang('账号绑定'));
 
- 
+
 global $vue;
 $vue->data("form", "{
     phone: '',
@@ -316,9 +316,9 @@ $vue->method("verifyOriginalEmail()", "
 
 <div class="container ">
     <div class="card bind-card">
-        <div class="card-body"> 
-            
-            <ul class="bind-list"> 
+        <div class="card-body">
+
+            <ul class="bind-list">
                 <li class="bind-item">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-phone bind-icon"></i>
@@ -338,7 +338,7 @@ $vue->method("verifyOriginalEmail()", "
                             {{ form.bindInfo.hasPhone ? '<?= lang('换绑') ?>' : '<?= lang('绑定') ?>' }}
                         </el-button>
                     </div>
-                </li> 
+                </li>
                 <li class="bind-item">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-envelope bind-icon"></i>
@@ -356,14 +356,14 @@ $vue->method("verifyOriginalEmail()", "
                         <el-button type="primary" @click="openEmailDialog">
                             <i class="bi" :class="form.bindInfo.hasEmail ? 'bi-arrow-repeat' : 'bi-link'"></i>
                             {{ form.bindInfo.hasEmail ? '<?= lang('换绑') ?>' : '<?= lang('绑定') ?>' }}
-                            </button>
+                        </el-button>
                     </div>
                 </li>
 
-                <?php do_action("bind_account")?>
+                <?php do_action("bind_account") ?>
             </ul>
         </div>
-    </div> 
+    </div>
     <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -386,7 +386,7 @@ $vue->method("verifyOriginalEmail()", "
                             <el-button type="primary" @click="verifyOriginalPhone"><?= lang('下一步') ?></el-button>
                         </div>
                     </div>
-                     
+
                     <div v-if="!form.bindInfo.hasPhone || form.phoneVerified">
                         <div class="mb-3">
                             <label for="phoneNumber" class="form-label"><?= lang('新手机号码') ?></label>
@@ -410,7 +410,7 @@ $vue->method("verifyOriginalEmail()", "
         </div>
     </div>
 
-     
+
     <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -419,7 +419,7 @@ $vue->method("verifyOriginalEmail()", "
                     <div type="primary" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></div>
                 </div>
                 <div class="modal-body">
-                   
+
                     <div v-if="form.bindInfo.hasEmail && !form.emailVerified" class="verification-section">
                         <h5 class="mb-3"><?= lang('验证原邮箱') ?></h5>
                         <p class="mb-3"><?= lang('当前绑定邮箱') ?>: <strong>{{ form.bindInfo.email }}</strong></p>
@@ -433,7 +433,7 @@ $vue->method("verifyOriginalEmail()", "
                             <el-button type="primary" class="btn btn-primary" @click="verifyOriginalEmail"><?= lang('下一步') ?></el-button>
                         </div>
                     </div>
-                     
+
                     <div v-if="!form.bindInfo.hasEmail || form.emailVerified">
                         <div class="mb-3">
                             <label for="emailAddress" class="form-label"><?= lang('新邮箱地址') ?></label>

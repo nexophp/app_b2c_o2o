@@ -113,6 +113,9 @@ class ProductData
             'width' => $data->width,
             'height' => $data->height,
             'recommend' => $data->recommend,
+            'score' => $data->score,
+            'comment' => $data->comment,
+            'sales' => $data->sales,
 
         ];
         if ($is_api) {

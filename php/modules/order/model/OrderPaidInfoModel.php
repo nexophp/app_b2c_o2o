@@ -30,7 +30,7 @@ class OrderPaidInfoModel extends AppModel
     public function getAttrTypeInfo(){
         $array = OrderModel::model()->getPaymentTypes();
         $result = array_column($array, 'label', 'value');
-        return $result[$this->type]??'未知'; 
+        return $result[$this->type]?:'未知'; 
     }
 
     /**
@@ -43,6 +43,10 @@ class OrderPaidInfoModel extends AppModel
         }
         if (isset($data['num'])) {
             $data['num'] = intval($data['num']);
+        }
+        // 为支付信息添加格式化时间 
+        if (isset($data['created_at'])) {
+            $data['created_at_format'] = date('Y-m-d H:i:s', $data['created_at']);
         }
         return $data;
     }

@@ -175,7 +175,10 @@ class ApiCartController extends \core\ApiController
     )]
     public function actionDelete()
     {
-        $item_id = (int)($this->post_data['id'] ?? 0);
+        $item_id = $this->post_data['id'];
+        if (!$item_id) {
+            return json_error(['msg' => lang('缺少购物车项ID')]);
+        }
         return $this->delete($item_id, $this->uid);
     }
 

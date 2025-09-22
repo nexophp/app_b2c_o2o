@@ -21,7 +21,7 @@ Menu::setGroup('admin');
 Menu::add('source', '资源', '', 'bi-suit-club', 900);
 Menu::add('o2o-address', '配送地址', '/o2o/address', '', 1000, 'source');
 Menu::add('o2o-info', '门店信息', '/o2o/info', '', 1000, 'source');
-Menu::add('o2o-order', '订单', '/o2o/admin', '', 1000, 'source');
+Menu::add('o2o-order', '门店订单', '/o2o/admin', '', 1000, 'source');
 //删除商城订单菜单  
 add_action("remove_admin_menu",function(&$remove){
     $remove[] = 'order-admin';
@@ -70,7 +70,7 @@ add_action("header_center", function () {
         echo '<span class="ms-2">营业时间：' . $hours . "</span>";
     }
 });
-
+ 
 
 add_action('admin.setting.form', function () {
 ?>
@@ -86,6 +86,12 @@ add_action('admin.setting.form', function () {
                 </label>
                 <input v-model="form.delivery_range" class="form-control" placeholder="<?=lang('配送范围')?>">
             </div> 
+            <div class="col-md-3">
+                <label class="form-label">
+                    <?= lang('不检测库存') ?>
+                </label>
+                <el-switch v-model="form.no_check_stock" active-value="1" inactive-value="-1" active-text="是" inactive-text="否"  ></el-switch>
+            </div>
 		</div>
 	</div>
 <?php 

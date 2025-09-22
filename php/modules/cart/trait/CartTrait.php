@@ -17,8 +17,11 @@ trait CartTrait
         $where['user_id'] = $this->uid;
         $where['ORDER'] = ['id' => 'DESC'];
         $where['selected'] = 1;
-        $data = $this->model->cart_item->find($where)->toArray();
-        $list['data'] = $data; 
+        $data = $this->model->cart_item->find($where);
+        if ($data) {
+            $data = $data->toArray();
+        }
+        $list['data'] = $data;
         return json_success($list);
     }
     /**
@@ -30,14 +33,27 @@ trait CartTrait
         $where = ['type' => $type];
         $where['user_id'] = $this->uid;
         $where['ORDER'] = ['id' => 'DESC'];
-        $data = $this->model->cart_item->find($where)->toArray();  
+        $data = $this->model->cart_item->find($where);
+        if ($data) {
+            $data = $data->toArray();
+        }
         $error = [];
-        if($data){
-            foreach($data as $key => $val){
-                if($val['product_status'] != 'success'){
+        $selected_count = 0;
+        $total_count = 0;
+        $selected_amount = 0;
+        if ($data) {
+            foreach ($data as $key => $val) {
+                if ($val['product_status'] != 'success') {
                     $error[] = $data[$key];
                     unset($data[$key]);
                 }
+                $data[$key]['selected'] = (string)$val['selected'];
+                if ($val['selected'] == 1) {
+                    $selected_count++;
+                    $amount = bcmul($val['price'], $val['num'], 2);
+                    $selected_amount = bcadd($selected_amount, $amount, 2);
+                }
+                $total_count++;
             }
         }
         $list['data'] = $data;
@@ -51,16 +67,31 @@ trait CartTrait
         } else {
             $list['selected'] = 0;
         }
-        if($error){
-            foreach($error as $v){
+        if ($error) {
+            foreach ($error as $v) {
                 db_update('cart_item', ['selected' => 0], ['id' => $v['id']]);
             }
         }
-        $list['error'] = $error;
+        $list['error'] = $error; 
+        /**
+         * 1 部分选中 2 全部
+         */
+        if ($selected_count > 0) {
+            $list['selected_checkbox'] = 1;
+            if ($selected_count == $total_count) {
+                $list['selected_checkbox'] = 2;
+            }
+        } else {
+            $list['selected_checkbox'] = 0;
+        }
+        $list['selected_count'] = $selected_count;
+        $list['selected_amount'] = $selected_amount;
+
         return json_success($list);
     }
     /**
      * admin购物车列表
+     * 仅提供给CartController使用，平台管理用户购物车。
      */
     protected function list($opt = [])
     {
@@ -104,10 +135,13 @@ trait CartTrait
             $where['user_id'] = $uid;
         }
 
-        $where['ORDER'] = ['updated_at' => 'DESC'];
+        $where['ORDER'] = ['id' => 'DESC'];
         $list = $this->model->cart_item->pager($where);
 
+        $selected_count = 0;
+        $total_count = 0;
         // 获取用户信息，显示手机号
+        $selected_amount = 0;
         foreach ($list['data'] as &$item) {
             if (isset($item['user_id'])) {
                 $user = UserModel::model()->find(['id' => $item['user_id']], 1);
@@ -121,6 +155,13 @@ trait CartTrait
                     ];
                 }
             }
+            $item['selected'] = (string)$item['selected'];
+            if ($item['selected'] == 1) {
+                $selected_count++;
+                $amount = bcmul($item['price'], $item['num'], 2);
+                $selected_amount = bcadd($selected_amount, $amount, 2);
+            }
+            $total_count++;
         }
         $list['search'] = [
             'phone' => $phone, // 改为手机号
@@ -128,6 +169,19 @@ trait CartTrait
             'start_time' => $start_time,
             'end_time' => $end_time
         ];
+        /**
+         * 1 部分选中 2 全部
+         */
+        if ($selected_count > 0) {
+            $list['selected'] = 1;
+            if ($selected_count == $total_count) {
+                $list['selected'] = 2;
+            }
+        } else {
+            $list['selected'] = 0;
+        }
+        $list['selected_count'] = $selected_count;
+        $list['selected_amount'] = $selected_amount;
         json_success($list);
     }
     /**
@@ -207,7 +261,7 @@ trait CartTrait
     protected function add($data = [])
     {
         $type = $data['type'] ?? 'product';
-        $user_id = $data['user_id'] ?? '';
+        $user_id = $data['user_id'] ?: $this->user_id;
         $product_id = $data['product_id'] ?? '';
         $num = $data['num'] ?? 1;
         $str_1 = $data['str_1'] ?? '';
@@ -329,7 +383,7 @@ trait CartTrait
     /**
      * 清空购物车
      */
-    protected function clear($user_id, $type)
+    protected function clear($user_id, $type = 'product')
     {
         $where = [
             'user_id' => $user_id,
@@ -337,5 +391,18 @@ trait CartTrait
         ];
         $this->model->cart_item->delete($where);
         return json_success(['msg' => lang('清空成功')]);
+    }
+    /**
+     * 全选/取消全选
+     */
+    protected function selectAll($user_id,  $selected, $type = 'product')
+    {
+        $this->model->cart_item->update([
+            'selected' => $selected,
+        ], [
+            'user_id' => $user_id,
+            'type' => $type,
+        ], true);
+        return json_success(['msg' => lang('操作成功')]);
     }
 }

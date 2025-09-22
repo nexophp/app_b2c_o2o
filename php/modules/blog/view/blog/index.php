@@ -321,7 +321,7 @@ $vue->opt['is_editor'] = true;
                     [
                         'type' => 'editor',
                         'name' => 'content',
-                        'label' => lang('内容内容'),
+                        'label' => lang('内容'),
                         'attr' => ['required'],
                     ],
                     [
