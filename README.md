@@ -9,8 +9,4 @@
 
 开源唯一地址： https://github.com/nexophp/app_b2c_o2o
   
-
-
-# MIT LICENSE
-
-[LICENSE](./LICENSE)
+ 
