@@ -22,6 +22,7 @@ trait CartTrait
             $data = $data->toArray();
         }
         $list['data'] = $data;
+        $list['count'] = $data ? count($data) : 0;
         return json_success($list);
     }
     /**
@@ -43,19 +44,20 @@ trait CartTrait
         $selected_amount = 0;
         if ($data) {
             foreach ($data as $key => $val) {
-                if ($val['product_status'] != 'success') {
+                if ($val['product_status'] != 'success') { 
                     $error[] = $data[$key];
                     unset($data[$key]);
+                    continue;
                 }
                 $data[$key]['selected'] = (string)$val['selected'];
                 if ($val['selected'] == 1) {
-                    $selected_count++;
+                    $selected_count++; 
                     $amount = bcmul($val['price'], $val['num'], 2);
                     $selected_amount = bcadd($selected_amount, $amount, 2);
                 }
                 $total_count++;
             }
-        }
+        }  
         $list['data'] = $data;
         $where['selected'] = 1;
         $total_amount =  $this->model->cart_item->sum('amount', $where);
@@ -404,5 +406,17 @@ trait CartTrait
             'type' => $type,
         ], true);
         return json_success(['msg' => lang('操作成功')]);
+    }
+    /**
+     * 删除选中商品
+     */
+    protected function deleteSelected($user_id, $type = 'product')
+    {
+        $this->model->cart_item->delete([
+            'user_id' => $user_id,
+            'type' => $type,
+            'selected' => 1,
+        ]);
+        return json_success(['msg' => lang('删除成功')]);
     }
 }

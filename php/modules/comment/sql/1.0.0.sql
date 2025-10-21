@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `status` varchar(20) DEFAULT 'wait',  
   `ip` varchar(20) DEFAULT NULL, 
   `is_delete` tinyint(1) DEFAULT 0, 
+  `goods_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -8,7 +8,7 @@ use modules\order\lib\OrderConfirm;
 use OpenApi\Attributes as OA;
 use modules\order\lib\OrderLogic;
 use modules\order\lib\OrderClose;
-
+use modules\payment\lib\WeiXin;
 
 #[OA\Tag(name: '订单', description: '订单管理接口')]
 class ApiController extends \core\ApiController
@@ -104,6 +104,9 @@ class ApiController extends \core\ApiController
 
         foreach ($all['data'] as $key => &$value) {
             $value->products;
+            if($value->status == 'wait'){
+                WeiXin::query($value->order_num);
+            }
         }
 
         json($all);
@@ -141,13 +144,7 @@ class ApiController extends \core\ApiController
         $order->products;
         $order->logic_info = OrderLogic::get($order->order_num) ?? [];
         if ($order->can_pay_time == 0 && $order->status == 'wait') {
-            db_action(function () use ($order) {
-                db_update('order', [
-                    'status' => 'close',
-                ], [
-                    'id' => $order->id,
-                ]);
-
+            db_action(function () use ($order) { 
                 OrderClose::do($order->id);
             });
         }
@@ -284,7 +281,7 @@ class ApiController extends \core\ApiController
         db_action(function () use ($id, $status, &$result) {
             $result = $this->model->order->update(['status' => $status], ['id' => $id, 'user_id' => $this->uid], true);
             if ($status == 'cancel') {
-                OrderClose::do($id);
+                OrderClose::do($id, 'cancel');
             }
         });
         $msgs = [

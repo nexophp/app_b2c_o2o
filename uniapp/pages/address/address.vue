@@ -24,13 +24,13 @@
 
 						<!-- 操作按钮 -->
 						<view class="address-actions">
-							<cl-button type="default" size="mini" @click.stop="editAddress(address)" class="edit-btn">
+							<view type="default" size="mini" @click.stop="editAddress(address)" class="edit-btn">
 								编辑
-							</cl-button>
-							<cl-button type="default" size="mini" @click.stop="deleteAddress(address.id)"
+							</view>
+							<view type="default" size="mini" @click.stop="deleteAddress(address.id)"
 								class="delete-btn">
 								删除
-							</cl-button>
+							</view>
 						</view>
 					</view>
 

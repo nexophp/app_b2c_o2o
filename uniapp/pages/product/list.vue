@@ -12,7 +12,7 @@
     </view>
 
     <!-- 排序选项卡 -->
-    <view class="sort-tabs">
+    <!-- <view class="sort-tabs">
       <view 
         v-for="tab in sortTabs" 
         :key="tab.value"
@@ -22,7 +22,7 @@
         <text>{{ tab.label }}</text>
         <view class="underline" v-if="activeTab === tab.value"></view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 商品列表 -->
     <mescroll-body 
@@ -52,10 +52,11 @@
               <text class="price">¥{{ item.price }}</text>
               <text v-if="item.original_price" class="original-price">¥{{ item.original_price }}</text>
             </view>
-            <view class="extra-info">
+            <!-- <view class="extra-info">
               <text>销量: {{ item.sales || 0 }}</text>
-              <!-- <uni-rate :value="item.rating || 0" :size="12" readonly></uni-rate> -->
+              <uni-rate :value="item.rating || 0" :size="12" readonly></uni-rate> 
             </view>
+			-->
           </view>
         </view>
       </view>
@@ -119,7 +120,7 @@ export default {
     
     // 处理搜索
     handleSearch() {
-      this.queryParams.keyword = this.searchKeyword;
+      this.queryParams.title = this.searchKeyword;
       this.mescroll.resetUpScroll();
     },
 

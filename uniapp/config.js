@@ -1,9 +1,8 @@
 var domain = ''
 var host = ''
 
-host = 'http://nexo.local'
-//host = 'http://127.0.0.1:3000'
-//host = 'https://nexo.qihetaiji.com'
+//host = 'http://nexo.local' 
+host = 'https://o2odemo.xda.com.cn'
 
 
 domain = host
@@ -82,6 +81,7 @@ const config = {
 		selected: domain + '/cart/api-cart/selected',
 		//全选
 		select_all: domain + '/cart/api-cart/select-all',
+		delete_selected:domain+'/cart/api-cart/delete-selected',
 	},
 	//订单
 	order: {
@@ -164,7 +164,7 @@ const config = {
 
 	pay: {
 		//小程序支付
-		weixin: domain + '/payment/api-weixin/native',
+		weixin: domain + '/payment/api-weixin/jsapi',
 	},
 
 	blog: {

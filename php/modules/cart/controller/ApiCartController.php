@@ -163,6 +163,23 @@ class ApiCartController extends \core\ApiController
     }
 
     /**
+     * 删除选中商品
+     */
+    #[OA\Post(
+        path: '/cart/api-cart/delete-selected',
+        summary: '删除选中商品',
+        tags: ['购物车'],
+        parameters: [
+            new OA\Parameter(name: 'type', description: '类型', in: 'query', schema: new OA\Schema(type: 'string', default: 'product')),
+        ],
+    )]
+    public function actionDeleteSelected()
+    {
+        $type = $this->post_data['type'] ?? 'product';
+        return $this->deleteSelected($this->uid, $type);
+    }
+
+    /**
      * 删除购物车项
      */
     #[OA\Post(

@@ -18,7 +18,7 @@ class ApiWeixinController extends \core\ApiController
         description: '接收微信支付异步通知，处理支付结果',
         tags: ['微信支付']
     )]
-    public function notify()
+    public function actionNotify()
     {
         return WeiXin::notify();
     }
@@ -120,12 +120,12 @@ class ApiWeixinController extends \core\ApiController
         }
     }
     /**
-     * JSAPI支付下单
+     * 小程序下单
      */
     #[OA\Post(
         path: '/payment/api-weixin/jsapi',
-        summary: 'JSAPI支付下单',
-        description: '创建JSAPI支付订单，适用于微信内网页支付',
+        summary: '小程序下单',
+        description: '创建小程序支付订单，适用于微信内小程序支付',
         tags: ['微信支付'],
         parameters: [
             new OA\Parameter(name: 'body', description: '订单描述', in: 'query', schema: new OA\Schema(type: 'string')),
@@ -154,7 +154,7 @@ class ApiWeixinController extends \core\ApiController
         $res = WeiXin::jsapi($req);
 
         if (isset($res['code']) && $res['code'] === 0) {
-            json_success($res['data']);
+            json_success(['data'=>$res['data']]);
         } else {
             json_error(['msg'=>$res['msg'] ?? '支付失败']);
         }

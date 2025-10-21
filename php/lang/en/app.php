@@ -204,4 +204,8 @@
   '一般' => 'Normal',
   '错误' => 'Error',
   'URL' => 'URL',
+  '下一页' => 'Next page',
+  '线上发货' => 'Online delivery',
+  '上一页' => 'Previous page',
+  '已退款' => 'Refunded',
 );

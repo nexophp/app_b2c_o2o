@@ -41,6 +41,22 @@ class ProductModel extends \core\AppModel
     {
         return $this->data['title'];
     }
+
+    public function getAttrShowPrice()
+    { 
+        if($this->spec_type == 2){
+            //取规格里面金额最低的
+            $product_spec = $this->product_spec;
+            if($product_spec){
+                $product_spec = $product_spec->toArray();
+                $price = array_column($product_spec, 'price');
+                $price = min($price);
+                return $price;
+            } 
+        }else{
+            return $this->price;
+        } 
+    }
     /**
      * 属性数组
      */
@@ -67,14 +83,17 @@ class ProductModel extends \core\AppModel
         if ($type_id && is_array($type_id)) {
             $data['type_id_last'] = end($type_id);
         }
+        //单规格、多规格需要判断价格 
         if ($data['spec_type'] == 1) {
             if ($data['price'] <= 0) {
-                json_error(['msg' => lang('价格必填')]);
+                if (!$data['ignore_price']) {
+                    json_error(['msg' => lang('价格必填')]);
+                }
             }
         } else {
             $flag = false;
             foreach ($data['spec'] as $v) {
-                if ($v['price'] > 0 && $v['title']) {
+                if ($v['price'] > 0) {
                     $flag = true;
                 } else {
                     json_error(['msg' => lang('规格名、价格必填')]);
@@ -114,6 +133,9 @@ class ProductModel extends \core\AppModel
         if ($spec_type == 2) {
             foreach ($data['spec'] as $v) {
                 $sku = $v['sku'] ?? '';
+                if (!$sku) {
+                    continue;
+                }
                 $this->checkSkuExist($sku, $id);
             }
         } else {
@@ -150,11 +172,13 @@ class ProductModel extends \core\AppModel
         $spec = $data['spec'];
         $model = new ProductSpecModel();
         $model->delete(['product_id' => $id]);
+      
         if ($spec) {
-            foreach ($spec as &$_spec) {
+            foreach ($spec as $_spec) {
                 $_spec['product_id'] = $id;
+                $_spec['title'] = ProductSpecModel::getTitle($_spec['spec_values']);
+                $model->insert($_spec);
             }
-            $model->inserts($spec);
         }
     }
 }

@@ -118,7 +118,7 @@ class ProductController extends \core\AdminController
         $id = $this->post_data['id'] ?? 0;
         if (!$id) {
             json_error(['msg' => lang('商品ID不能为空')]);
-        }
+        } 
 
         $result = $this->model->product->delete(['id' => $id]);
         if ($result) {

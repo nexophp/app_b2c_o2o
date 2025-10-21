@@ -57,7 +57,7 @@ class ProductData
                     'sku' => $v['sku'],
                     'status' => (string)$v['status'],
                     'is_default' => (string)$v['is_default'], 
-
+                    'spec_values' => $v['spec_values'],
                 ];
                 if (!$top_price) {
                     $top_price = $row['price'];
@@ -116,7 +116,8 @@ class ProductData
             'score' => $data->score,
             'comment' => $data->comment,
             'sales' => $data->sales,
-
+            'spec_names' => $data->spec_names,
+            'show_price'=>$data->show_price,
         ];
         if ($is_api) {
             $data['image'] = cdn() . $data['image'];

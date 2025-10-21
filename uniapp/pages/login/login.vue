@@ -127,11 +127,13 @@
 				this.ajax(this.config.login.phone_code, {
 					phone: this.formData.phone,
 					code: this.formData.code
-				}).then(res => {
-
+				}).then(res => { 
 					if (res.code == 0) {
 						let data = res.data
 						this.login_success(data)
+						setTimeout(()=>{
+							this.jump(this.config.home)
+						},1000)
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -139,9 +141,7 @@
 						})
 					}
 					uni.hideLoading()
-					setTimeout(()=>{
-						this.jump(this.config.home)
-					},1000)
+					
 				})
 			}
 		},

@@ -22,8 +22,8 @@ $module_info = [
 
 Menu::setGroup('admin');
 // 添加顶级菜单
-Menu::add('source', '资源', '', 'bi-suit-club', 900);
-Menu::add('wallet-admin', '钱包', '/wallet/admin', '', 20, 'source');
+// Menu::add('source', '资源', '', 'bi-suit-club', 900);
+// Menu::add('wallet-admin', '钱包', '/wallet/admin', '', 20, 'source');
 
 /**
  * 增加钱包

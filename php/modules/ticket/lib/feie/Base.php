@@ -204,7 +204,7 @@ class Base
         foreach ($new_p as $v) {
             $list = [];
             $title = '';
-            $tag = "br|l|w|br";
+            $tag = "br|br";
             foreach ($v as $vv) {
                 $k1   = $vv['k'] ?? '';
                 $v1   = $vv['v'];

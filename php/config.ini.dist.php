@@ -19,6 +19,10 @@ $config['db_port'] = '{db_port}';
 $config['redis']['host'] = '{redis_host}';
 $config['redis']['port'] = '{redis_port}';
 $config['redis']['auth'] = '{redis_auth}';
+/**
+ * 微信支付货币
+ */
+$config['currency'] = 'CNY';
 
 /**
  * AES 

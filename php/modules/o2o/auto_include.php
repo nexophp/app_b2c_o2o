@@ -96,3 +96,27 @@ add_action('admin.setting.form', function () {
 	</div>
 <?php 
 });
+
+
+
+add_action('admin.setting.form', function () {
+?>
+    <div class="mb-4">
+        <h6 class="fw-bold mb-3 border-bottom pb-2">
+            <i class="bi bi-geo me-2"></i>
+            <a href="https://console.tianditu.gov.cn/api/key/" target="_blank"><?= lang('天地图key') ?></a>
+        </h6>
+
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">
+                    <?= lang('天地图服务器端Key') ?>
+                </label>
+                <input v-model="form.tianditu" class="form-control" placeholder="<?=lang('服务端key')?>">
+            </div> 
+		</div>
+	</div>
+<?php 
+});
+
+

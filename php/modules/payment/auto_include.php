@@ -6,19 +6,19 @@ use core\Menu;
  * 模块信息
  */
 $module_info = [
-	'version' => '1.0.0',
-	'title' => '支付',
-	'description' => '',
-	'url' => '',
-	'email' => '68103403@qq.com',
-	'author' => 'sunkangchina'
+    'version' => '1.0.0',
+    'title' => '支付',
+    'description' => '',
+    'url' => '',
+    'email' => '68103403@qq.com',
+    'author' => 'sunkangchina'
 ];
 
 
 
 add_action('admin.setting.form', function () {
     global $vue;
-    $vue->method('uploadFile(field)'," 
+    $vue->method('uploadFile(field)', " 
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.accept = '.pem,.key,.crt,.cer';
@@ -35,7 +35,7 @@ add_action('admin.setting.form', function () {
                     contentType: false,  
                     success: function(res)  {
                         res = JSON.parse(res);
-                        ".vue_message()." 
+                        " . vue_message() . " 
                         let url = res.data.url; 
                         if (res.code == 0 && res.data && res.data.url) {
                             that.form[field] = res.data.url;   
@@ -43,7 +43,7 @@ add_action('admin.setting.form', function () {
                         }
                     },
                     error: function() {
-                        that.\$message.error('".lang("上传失败")."');
+                        that.\$message.error('" . lang("上传失败") . "');
                     }
                 });
             }
@@ -54,7 +54,7 @@ add_action('admin.setting.form', function () {
     <div class="mb-4">
         <h6 class="fw-bold mb-3 border-bottom pb-2">
             <i class="bi bi-credit-card me-2"></i><?= lang('微信支付') ?>
-             
+
         </h6>
 
         <div class="row g-3">
@@ -96,14 +96,14 @@ add_action('admin.setting.form', function () {
                 <input v-model="form.payment_config_weixin_secret_key" class="form-control" placeholder="">
             </div>
 
-			<div class="col-md-3">
+            <div class="col-md-3">
                 <label class="form-label">
                     <?= lang('API秘钥 V2') ?>
                 </label>
                 <input v-model="form.payment_config_weixin_v2_secret_key" class="form-control" placeholder="">
             </div>
 
-			<div class="col-md-3">
+            <div class="col-md-3">
                 <label class="form-label">
                     <?= lang('平台证书') ?>
                 </label>
@@ -117,13 +117,50 @@ add_action('admin.setting.form', function () {
 
         </div>
     </div>
-<?php 
+<?php
 
 });
 
 // 添加上传文件的方法
 add_action('admin.setting.methods', function () {
 ?>
-    
+
+<?php
+});
+
+
+
+add_action('admin.setting.form', function () {
+    global $vue;
+?>
+    <div class="mb-4">
+        <h6 class="fw-bold mb-3 border-bottom pb-2">
+            支付宝条码支付
+
+        </h6>
+
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">
+                    当面付应用APPID
+                </label>
+                <input v-model="form.alipay_appid" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">
+                    当面付应用私钥
+                </label>
+                <textarea v-model="form.alipay_rsa_private_key" class="form-control"></textarea>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">
+                    支付宝公钥
+                </label>
+                <textarea v-model="form.alipay_public_key" class="form-control"></textarea>
+            </div>
+
+        </div>
+    </div>
+
 <?php
 });

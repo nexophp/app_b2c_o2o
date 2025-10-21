@@ -546,7 +546,7 @@ echo element("pager", [
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="price" label="<?= lang('单价') ?>" width="120" align="center">
+            <el-table-column prop="price" label="<?= lang('单价') ?>" width="220" align="center">
                 <template slot-scope="{row}">
                     ¥{{ row.price }}
                 </template>
@@ -719,7 +719,7 @@ echo element("pager", [
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="real_price" label="单价" width="100">
+                    <el-table-column prop="real_price" label="单价" width="220">
                         <template slot-scope="scope">
                             ￥{{ scope.row.real_price }}
                         </template>

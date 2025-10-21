@@ -34,7 +34,7 @@ class Printer
         $res = [
             [
                 "title" => $order['order_num'],
-                "tag" => 'cb|br',
+                "tag" => 'c|br',
             ],
             [
                 'tag' => 'line|br'

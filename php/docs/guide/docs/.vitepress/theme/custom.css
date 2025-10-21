@@ -1,0 +1,110 @@
+/* .vitepress/theme/custom.css */
+/* VitePress 大纲折叠样式 */
+.VPDocAsideOutline .has-children,
+.VPDocOutlineItem.has-children {
+  position: relative;
+}
+
+.VPDocAsideOutline .collapse-btn,
+.VPDocOutlineItem .collapse-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  user-select: none;
+}
+
+.VPDocAsideOutline .collapse-btn:hover,
+.VPDocOutlineItem .collapse-btn:hover {
+  color: var(--vp-c-text-1);
+}
+
+.VPDocAsideOutline .has-children.collapsed .collapse-btn,
+.VPDocOutlineItem.has-children.collapsed .collapse-btn {
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.VPDocAsideOutline .has-children ul,
+.VPDocOutlineItem.has-children ul {
+  transition: all 0.2s ease;
+}
+
+.VPDocAsideOutline .has-children.collapsed ul,
+.VPDocOutlineItem.has-children.collapsed ul {
+  display: none !important;
+}
+
+/* 展开状态样式 */
+.VPDocAsideOutline .has-children.expanded .collapse-btn {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.VPDocAsideOutline .has-children.expanded ul {
+  display: block !important;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 默认状态 - 未折叠时显示 */
+.VPDocAsideOutline .has-children:not(.collapsed) ul {
+  display: block !important;
+}
+
+/* 针对VPDocOutlineItem的样式 */
+.VPDocOutlineItem.has-children {
+  position: relative;
+}
+
+.VPDocOutlineItem .collapse-btn {
+  position: absolute;
+   
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  user-select: none;
+}
+
+.VPDocOutlineItem .collapse-btn:hover {
+  color: var(--vp-c-text-1);
+}
+
+.VPDocOutlineItem.has-children.collapsed .collapse-btn {
+  transform: rotate(-90deg);
+}
+
+.VPDocOutlineItem.has-children ul {
+  transition: all 0.2s ease;
+}
+
+.VPDocOutlineItem.has-children.collapsed ul {
+  display: none !important;
+}
+
+.VPDocOutlineItem.has-children.expanded .collapse-btn {
+  transform: rotate(0deg);
+}
+
+.VPDocOutlineItem.has-children.expanded ul {
+  display: block !important;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* VPDocOutlineItem默认状态 - 未折叠时显示 */
+.VPDocOutlineItem.has-children:not(.collapsed) ul {
+  display: block !important;
+}
+
+/* 针对nested类的样式 */
+.VPDocOutlineItem.nested.has-children {
+  position: relative;
+}
+
+.outline-link {
+  position: relative;
+}

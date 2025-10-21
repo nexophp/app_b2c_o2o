@@ -33,10 +33,14 @@ class ApiConfigController extends \core\ApiController
             'wallet_rate',
             'wallet_min',
             'search_keywords',
+            'logo',
         ]);
         $search_keywords = $config['search_keywords'];
         if ($search_keywords) {
             $config['search_keywords'] =  string_to_array($search_keywords);
+        }
+        if ($config['logo']) {
+            $config['logo'] = cdn() . $config['logo'];
         }
 
         json_success([

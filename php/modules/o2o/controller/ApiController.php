@@ -61,6 +61,15 @@ class ApiController extends \core\ApiController
         $data['image'] = cdn() . $data['image'];
         $data['hours'] = $hours;
         $data['delivery_range'] = get_config('delivery_range');
+        $can_buy = true;
+        $now = date('H:i');
+        if ($now < $data['business_start'] || $now > $data['business_end']) {
+            $can_buy = false;
+        }
+        if ($data['status'] != 1) {
+            $can_buy = false;
+        }
+        $data['can_buy'] = $can_buy;
         json_success(['data' => $data]);
     }
 }

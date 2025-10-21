@@ -45,9 +45,9 @@
 			<view class="menu-group">
 				<view class="menu-item" @click="jump_user('/pages/order/order?type=all')">
 
-					<text class="menu-text">商城订单</text>
+					<text class="menu-text">我的订单</text>
 					<view class="menu-right">
-						<text class="menu-subtext">全部订单</text>
+						<text class="menu-subtext">全部</text>
 						<uni-icons type="right" size="16" color="#999"></uni-icons>
 					</view>
 				</view>
@@ -129,6 +129,9 @@
 		<view class="logout-section" v-if="user_info.phone">
 			<button class="logout-btn" @click="logout">退出登录</button>
 		</view>
+		
+		<xh-privacy title="隐私保护指引" theme="direction" background="rgba(0, 0, 0, .5)" color="#2979ff"></xh-privacy>
+		
 	</view>
 </template>
 
@@ -136,6 +139,7 @@
 export default {
 	data() {
 		return {
+			store:{},
 			info: {},
 			user_info: {},
 			userInfo: {
@@ -159,8 +163,14 @@ export default {
 		this.get_staff() 
 		this.get_coupon_count()
 		this.get_point()
+		this.load_info()
 	},
 	methods: {
+		load_info() {
+			this.ajax(this.config.o2o.home, {}).then(res => {
+				this.store = res.data 
+			})
+		},
 		get_point(){
 			this.ajax(this.config.point.total,{}).then(res=>{
 				this.point = res.data 
@@ -207,7 +217,7 @@ export default {
 		// 联系客服
 		contactCustomerService() {
 			uni.makePhoneCall({
-				phoneNumber: this.info.app_phone
+				phoneNumber: this.store.phone
 			})
 		},
 

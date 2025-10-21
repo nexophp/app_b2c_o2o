@@ -3,6 +3,7 @@
 namespace modules\comment\model;
 
 use modules\admin\model\UserModel;
+use modules\product\data\ProductData;
 
 class CommentModel extends \core\AppModel
 {
@@ -37,6 +38,7 @@ class CommentModel extends \core\AppModel
 
     public function afterFind(&$data)
     {
+        global $uid;
         $statusMap = [
             'wait' => lang('待审核'),
             'complete' => lang('已通过'),
@@ -55,7 +57,7 @@ class CommentModel extends \core\AppModel
         }
         $avatar = $user['avatar'] ?: cdn() . '/misc/img/avatar.png';
         $data['user_avatar'] = $avatar;
-        $data['user_name'] = '匿名用户';
+        $data['user_name'] = $user['nickname'] ?: '匿名用户';
 
         $reply = CommentReplyModel::model()->find([
             'comment_id' => $data['id'],
@@ -66,5 +68,20 @@ class CommentModel extends \core\AppModel
         ]);
 
         $data['reply'] = $reply;
+
+        $data['timeago'] = timeago($data['created_at']);
+
+        $type = g("comment_type") ?: 'default';
+        if (function_exists('is_like')) {
+            $data['is_like'] = is_like($data['id'], $type, $uid);
+            $data['like'] = get_like_count($data['id'], $type);
+        }
+
+        $goods_id = $data['goods_id'] ?: 0;
+        if ($goods_id) {
+            $goods = get_product_view($goods_id);
+            $data['goods'] = ProductData::resetData($goods);
+        }
+        
     }
 }

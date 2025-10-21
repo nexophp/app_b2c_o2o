@@ -97,7 +97,11 @@ $vue->method("login()", "
         " . vue_message() . "
         if (res.code == 0) {
            setTimeout(function() {
-                window.location.href = '/admin/site';
+                if(isInIframe()){
+                    window.parent.location.href = '/admin/site';
+                }else{
+                    window.location.href = '/admin/site';
+                }
            }, 1000);
         }
         _this.loading = false;

@@ -165,6 +165,7 @@ export default {
 			// 属性选择
 			selectedAttrs: {},
 			stock_is_ok: false,
+			user_info:{},
 		}
 	},
 	computed: {
@@ -210,6 +211,9 @@ export default {
 			this.loadCartCount();
 		}
 	},
+	onShow() {
+		this.get_user_info()
+	}, 
 	methods: {
 		checkStock() {
 			this.ajax(_this.config.product.stock, {
@@ -262,6 +266,10 @@ export default {
 		},
 
 		addToCart() {
+			if(!this.user_info.id){
+				this.jump('/pages/user/user')
+				return 
+			}
 			if (this.product.spec_type === '2' && this.product.spec && this.product.spec.length > 0) {
 				this.actionType = 'cart';
 				this.setDefaultSpec();
@@ -272,6 +280,10 @@ export default {
 			}
 		},
 		buyNow() {
+			if(!this.user_info.id){
+				this.jump('/pages/user/user')
+				return 
+			}
 			if (this.product.spec_type === '2' && this.product.spec && this.product.spec.length > 0) {
 				this.actionType = 'buy';
 				this.setDefaultSpec();

@@ -14,20 +14,21 @@ class OrderConfirm
         $total_num = 0;
         $new_items = [];
         foreach ($items as $item) {
-            $productId = $item['product_id'] ?? '';
+            $product_id = $item['product_id'] ?? '';
             $num = intval($item['num'] ?? 1);
             $spec = $item['spec'] ?? '';
-            $attr = $item['attr'] ?? '';
-            $price = get_product_price($productId, $spec);
-            if (empty($productId) || $num <= 0 || $price <= 0) {
+            $attr = $item['attr'] ?? ''; 
+            $price = get_product_price($product_id, $spec);
+            if (empty($product_id) || $num <= 0 || $price <= 0) {
+                json_error(['msg' => '订单明细错误,product_id:' . $product_id . ',num:' . $num . ',price:' . $price]);
                 continue;
-            } 
+            }
             $item_amount = bcmul($price, $num, 2);
             $real_amount = bcadd($real_amount, $item_amount, 2);
             $total_num = bcadd($total_num, $num);
             $price = bcmul($price, 1, 2);
             $new_items[] = [
-                'product_id' => $productId,
+                'product_id' => $product_id,
                 'title' => $item['title'] ?? '',
                 'image' => $item['image'] ?? '',
                 'spec' => $item['spec'] ?? '',
@@ -37,7 +38,7 @@ class OrderConfirm
                 'num' => $num,
                 'amount' => $item_amount,
                 'real_amount' => $item_amount,
-                'spec' => $item['spec'] ?? '', 
+                'spec' => $item['spec'] ?? '',
             ];
         }
         $data = [

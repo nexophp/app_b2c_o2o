@@ -7,7 +7,7 @@ class OrderClose
     /**
      * 取消订单
      */
-    public static function do($order_id)
+    public static function do($order_id, $update_status = 'close')
     {
         self::returnCoupon($order_id);
         $items = db_get("order_item", '*', [
@@ -16,6 +16,13 @@ class OrderClose
         if ($items) {
             foreach ($items as $v) {
                 ProductStock::up($v);
+                if ($update_status) {
+                    db_update('order', [
+                        'status' => $update_status,
+                    ], [
+                        'id' => $v['order_id'],
+                    ]);
+                }
             }
         }
     }

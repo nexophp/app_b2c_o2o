@@ -53,53 +53,40 @@ class OrderCreator
      */
     public function create($orderData)
     {
-        // 验证必要参数
-        $this->validateOrderData($orderData);
+        $items = $orderData['items'];
+        if (!$items) {
+            json_error(['msg' => '订单明细不能为空']);
+        }
+        $items_count = count($items); 
+        $res =  OrderConfirm::confirm($items);
+        $real_amount = $res['real_amount'];
+        $amount = $res['amount'];
+        $items = $res['items'];
+        $orderData['real_amount'] = $real_amount;
+        $orderData['amount'] = $amount;
+        $orderData['items'] = $items;
+        $orderMainData = $this->prepareOrderMainData($orderData); 
 
-        // 1. 创建订单主表数据
-        $orderMainData = $this->prepareOrderMainData($orderData);
         $orderId = $this->orderModel->insert($orderMainData);
-
         if (!$orderId) {
             json_error(['msg' => lang('订单创建失败')]);
         }
-
-        // 2. 创建订单明细数据
-        if (!empty($orderData['items'])) {
-            $this->createOrderItems($orderId, $orderMainData['order_num'], $orderData);
+        if ($items_count != count($items)) {
+            json_error(['msg' => '订单明细数量错误']);
         }
+        /**
+         * 写入订单明细表
+         */
+        foreach ($items as $v) {
+            $v['order_id'] = $orderId; 
+            $this->orderItemModel->insert($v);
+        }
+
         do_action('order.create', $orderId);
         return [
             'id' => $orderId,
             'order_num' => $orderMainData['order_num']
         ];
-    }
-
-    /**
-     * 验证订单数据
-     */
-    private function validateOrderData($orderData)
-    {
-        $required = ['user_id', 'amount', 'items'];
-        if ($this->check) {
-            foreach ($required as $field) {
-                if (empty($orderData[$field])) {
-                    json_error(['msg' => "缺少必要参数: {$field}"]);
-                }
-            }
-        }
-        // 验证商品数据
-        foreach ($orderData['items'] as $item) {
-            if ($this->check) {
-                if (empty($item['product_id']) || empty($item['title']) || empty($item['price']) || empty($item['num'])) {
-                    json_error(['msg' => lang('商品信息不完整')]);
-                }
-            } else {
-                if (empty($item['product_id']) || empty($item['title']) ||  empty($item['num'])) {
-                    json_error(['msg' => lang('商品信息不完整')]);
-                }
-            }
-        }
     }
 
     /**

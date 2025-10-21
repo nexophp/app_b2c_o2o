@@ -71,7 +71,7 @@ ajax('/logistic/api/support', {}, function(res) {
     }
 });
 ");
- 
+
 
 // 添加支付信息
 $vue->method("addPayment(row)", " 
@@ -471,7 +471,18 @@ echo element("pager", [
             </thead>
             <tbody>
                 <tr v-for="item in orderDetail.items" :key="item.id">
-                    <td>{{ item.title }}</td>
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            <div style="margin-right: 10px;">
+                                <img :src="item.image" alt="" width="50" height="50">
+                            </div>
+                            <div>
+                                {{ item.title }}
+                                <p v-if="item.spec||''">{{ item.spec }}</p>
+                                <p v-if="item.attr||''">{{ item.attr }}</p>
+                            </div>
+                        </div>
+                    </td>
                     <td>￥{{ item.price }}</td>
                     <td>{{ item.num }}</td>
                     <td>￥{{ item.amount }}</td>
@@ -588,7 +599,7 @@ echo element("pager", [
         <el-form-item label="<?php echo lang('物流单号'); ?>" required>
             <el-input v-model="logisticForm.no" placeholder="<?php echo lang('请输入物流单号'); ?>"></el-input>
         </el-form-item>
-        <el-form-item label="<?php echo lang('物流公司'); ?>" required>  
+        <el-form-item label="<?php echo lang('物流公司'); ?>" required>
             <el-select v-model="logisticForm.type" placeholder="<?php echo lang('请选择物流公司'); ?>">
                 <el-option
                     v-for="company in logisticCompanies"
@@ -629,7 +640,7 @@ echo element("pager", [
                         <td>{{ logisticInfo.created_at_format }}</td>
                     </tr>
                 </table>
-            </div> 
+            </div>
             <div class="col-md-6" v-if="logisticData && logisticData.title">
                 <h6 class="mb-2"><?php echo lang('快递公司信息'); ?></h6>
                 <table class="table table-bordered">

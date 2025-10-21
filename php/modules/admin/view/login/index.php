@@ -76,13 +76,21 @@ $vue->method("login()", "
     this.loading = true;
     ajax('/admin/login/account',this.form,function(res){
         if(res.jump){
+            if(isInIframe()){
+                window.parent.location.href = res.jump;
+                return;
+            }
             window.location.href = res.jump;
             return;
         }
         " . vue_message() . "
         if(res.code == 0){
            setTimeout(function(){
-                window.location.href = '/admin/site';
+                if(isInIframe()){
+                    window.parent.location.href = '/admin/site';
+                }else{
+                    window.location.href = '/admin/site';
+                }
            },1000);
         }
         _this.loading = false;

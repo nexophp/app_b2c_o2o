@@ -35,9 +35,8 @@
 				<view class="detail-row phone-row">
 					<uni-icons type="phone" size="16" color="#007AFF" class="detail-icon"></uni-icons>
 					<text class="detail-text callable" @click="makePhoneCall">{{ store.phone }}</text>
-					<view class="call-button" @click="makePhoneCall">
-						<uni-icons type="phone" size="14" color="#007AFF"></uni-icons>
-						<text>拨打</text>
+					<view class="" >
+						 
 					</view>
 				</view>
 			</view>
@@ -65,7 +64,7 @@
 		data() {
 			return {
 				store: {
-					notice: "🎉 今日特惠：满50减10，满100减25！点击查看活动详情 →",
+					notice: "",
 					// 其他门店数据...
 				},
 				products: [ 
@@ -77,6 +76,9 @@
 			}
 		},
 		onLoad() {
+			this.load_info() 
+		},
+		onShow() {
 			this.load_info() 
 		},
 		onReachBottom() {
@@ -236,7 +238,7 @@
 	}
 
 	.store-info-main {
-		f极: 1;
+		flex: 1;
 	}
 
 	.store-name {
@@ -283,7 +285,7 @@
 		background-color: #07c160;
 	}
 
-	.store-status.closed .status极ot {
+	.store-status.closed .status-dot {
 		background-color: #ff4d4f;
 	}
 

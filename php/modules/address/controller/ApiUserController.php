@@ -27,8 +27,7 @@ class ApiUserController extends \core\ApiController
             'ORDER' => ['is_default' => 'DESC', 'id' => 'DESC'],
         ]);
         foreach ($all['data'] as &$v) {
-            UserAddressData::data($v);
-            $v['address'] = get_clean_address($v['address']);
+            UserAddressData::data($v); 
         }
         json_success($all);
     }
@@ -89,7 +88,7 @@ class ApiUserController extends \core\ApiController
             json_error(lang('地址不存在'));
         }
         $this->setRegion($data);
-        UserAddressValidate::validate($data);
+        UserAddressValidate::validate($data); 
         db_update('user_address', $data, [
             'id' => $id,
             'user_id' => $this->user_id,

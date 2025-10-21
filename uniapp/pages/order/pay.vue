@@ -42,22 +42,14 @@
 				})
 			 },
 			 confirmPay(){
+				uni.showLoading()
 				this.weixin_pay(this.order.order_num, this.order.real_amount, '购物')
 			 },
 			 paid(){
-				//支付成功
-				uni.showToast({
-					title: '支付成功',
-					icon: 'success'
-				})
-				setTimeout(() => {
-					uni.navigateBack({
-						delta: 1
-					})
-				}, 1000)
+				this.jump('/pages/order/order')
 			 },
 			 unpaid(){
-				//支付失败
+				uni.hideLoading()
 			 }
 		}
 	}

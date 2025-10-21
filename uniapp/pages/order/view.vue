@@ -47,9 +47,9 @@
 								<text class="product-price">¥{{ product.price || 0 }}</text>
 								<text class="product-qty">x{{ product.num }}</text>
 								<!-- 申请售后按钮 -->
-								<view v-if="canApplyRefund(product)" class="product-actions">
+								<!-- <view v-if="canApplyRefund(product)" class="product-actions">
 									<button class="refund-btn" @click="applyRefund(product)">申请售后</button>
-								</view>
+								</view> -->
 							</view>
 						</view>
 					</view>
@@ -314,11 +314,11 @@ export default {
 			const actions = []
 
 			// 联系客服按钮（所有状态都显示）
-			actions.push({
-				type: 'contact',
-				text: '联系客服',
-				uniType: 'default'
-			})
+			// actions.push({
+			// 	type: 'contact',
+			// 	text: '联系客服',
+			// 	uniType: 'default'
+			// })
 
 			switch (status) {
 				case 'wait':
@@ -896,6 +896,7 @@ export default {
 	line-height: 1;
 	box-sizing: border-box;
 	text-align: center;
+	margin-bottom:15px;
 }
 
 .btn-default {

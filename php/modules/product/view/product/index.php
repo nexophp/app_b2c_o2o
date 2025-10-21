@@ -118,14 +118,14 @@ this.\$confirm('" . lang('确认删除该商品吗？') . "', '" . lang('提示'
     confirmButtonText: '" . lang('确定') . "',
     cancelButtonText: '" . lang('取消') . "',
     type: 'warning'
-}).then(() => {
-    " . vue_message() . "
+}).then(() => { 
     ajax('/product/product/delete', {id: row.id}, function(res) {
+        " . vue_message() . "
         if (res.code == 0) { 
-            this.load_list();
+            app.load_list();
         } 
     });
-}).catch(() => {});
+});
 ");
 
 // 权限控制
@@ -212,8 +212,49 @@ ajax('/product/product/recommend', {id: row.id}, function(res) {
         ?>
 
         <?php
+        $html = "";
+        $html = "  
+        <table class='table  table-bordered' v-if='scope.row.spec_type == 2'>        
+            <thead>
+                <tr>
+                    <th v-for='v in scope.row.spec_names'>{{v.name}}</th>
+                    <th>SKU</th>
+                    <th>库存</th>
+                    <th>价格</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr v-for='row in scope.row.spec'>
+                <th v-for='(v,index) in scope.row.spec_names'>{{row.spec_values[index]}}</th>
+                <th>{{row.sku}}</th>
+                <th>{{row.stock}}</th>
+                <th>{{row.price}}</th>
+            </tr>
+            </tbody>
+        </table>
+        <div v-else>
+            <span>库存：{{scope.row.stock}}</span>
+        </div>
+        ";
         echo element('table', [
             ['name' => 'open', ':data' => 'list', ":height" => "height"],
+            [
+                'name' => 'column',
+                'prop' => '',
+                'label' => '',
+                'type' => 'expand',
+                'tpl' => [
+                    [
+                        "type" => 'html',
+                        "html" => $html
+                    ]
+                ]
+            ],
+            [
+                'name' => 'column',
+                'prop' => 'title',
+                'label' => '标题',
+            ],
             [
                 'name' => 'column',
                 'prop' => 'image',
@@ -224,38 +265,10 @@ ajax('/product/product/recommend', {id: row.id}, function(res) {
                     "html" => "<el-image style='width: 50px; height: 50px;' v-if='scope.row.image' :src='scope.row.image' :preview-src-list='[scope.row.image]'></el-image>"
                 ]]
             ],
-            ['name' => 'column', 'prop' => 'title', 'label' => lang('商品名称')],
-            ['name' => 'column', 'prop' => 'weight_title', 'label' => lang('重量'), 'width' => '200'],
-            ['name' => 'column', 'prop' => 'price', 'label' => lang('价格'), 'width' => '100'],
-            [
-                'name' => 'column',
-                'prop' => 'stock',
-                'label' => lang('库存'),
-                'width' => '300',
-                'tpl' => [[
-                    'type' => 'html',
-                    "html" => "
-                       <div v-if=' scope.row.spec_type == 2' @click='showSpec(scope.row)'>
-                           <el-table :data='scope.row.spec' style='width: 90%'>
-                               <el-table-column prop='title' label='规格' width=''></el-table-column>
-                               <el-table-column prop='stock' label='库存' width=''>
-                                   <template slot-scope='scope'> 
-                                       <el-tag v-if='scope.row.stock < notice_stock' type='danger'>{{scope.row.stock}}</el-tag>
-                                       <el-tag v-else type='success'>{{scope.row.stock}}</el-tag>
-                                   </template>
-                               </el-table-column>
-                           </el-table> 
-                       </div>
-                       <div v-else @click='showSpec(scope.row)'>
-                            <div>
-                               <el-tag v-if='scope.row.stock < notice_stock' type='danger'>{{scope.row.stock}}</el-tag>
-                               <el-tag v-else type='success'>{{scope.row.stock}}</el-tag>
-                            </div>
-                       </div>
 
-                    "
-                ]]
-            ],
+            ['name' => 'column', 'prop' => 'weight_title', 'label' => lang('重量'), 'width' => '200'],
+            ['name' => 'column', 'prop' => 'show_price', 'label' => lang('价格'), 'width' => ''],
+
             [
                 'name' => 'column',
                 'prop' => 'status',
@@ -269,23 +282,28 @@ ajax('/product/product/recommend', {id: row.id}, function(res) {
                         "
                 ]]
             ],
-            ['name' => 'column', 'prop' => 'recommend', 'label' => lang('推荐'), 'width' => '130',
-                'tpl'=>[
-                    ['type' => 'html',
-                    "html" => "
+            [
+                'name' => 'column',
+                'prop' => 'recommend',
+                'label' => lang('推荐'),
+                'width' => '130',
+                'tpl' => [
+                    [
+                        'type' => 'html',
+                        "html" => "
                         <el-tag @click='do_recommend(scope.row)' v-if='scope.row.recommend == 1' type='primary'>" . lang('推荐') . "</el-tag>
                         <el-tag @click='do_recommend(scope.row)' v-else type='info'>" . lang('设为推荐') . "</el-tag>
                     "
-                ]]
+                    ]
+                ]
             ],
             [
                 'name' => 'column',
                 'label' => lang('操作'),
                 'width' => '200',
-                'fixed' => 'right',
                 'tpl' => [
                     ['name' => 'button', 'label' => lang('编辑'), "v-if" => "can_edit", '@click' => 'update_row(scope.row)', 'type' => 'primary', 'size' => 'small'],
-                    ['name' => 'button', 'label' => lang('库存'), "v-if" => "can_edit", '@click' => 'update_stock(scope.row)', 'type' => 'success', 'size' => 'small'],
+                    ['name' => 'button', 'label' => lang('删除'), "v-if" => "can_edit", '@click' => 'delete_row(scope.row)', 'type' => 'danger', 'size' => 'small'],
                 ]
             ],
             ['name' => 'close'],
@@ -363,7 +381,7 @@ $vue->data("activeName", "product");
                         ?>
                     </el-tab-pane>
                     <el-tab-pane label="规格" name="specification">
-                        <?php 
+                        <?php
                         echo element('form', [
                             ['type' => 'open', 'model' => 'form', 'label-position' => 'left', 'label-width' => '100px'],
                             [
@@ -377,7 +395,7 @@ $vue->data("activeName", "product");
                         ?>
                     </el-tab-pane>
                     <el-tab-pane label="属性" name="attribute">
-                        <?php 
+                        <?php
                         echo element('form', [
                             ['type' => 'open', 'model' => 'form', 'label-position' => 'left', 'label-width' => '100px'],
                             [
@@ -391,35 +409,35 @@ $vue->data("activeName", "product");
                         ?>
                     </el-tab-pane>
                     <el-tab-pane label="运费" name="freight">
-                        <?php 
+                        <?php
                         echo element('form', [
                             ['type' => 'open', 'model' => 'form', 'label-position' => 'left', 'label-width' => '180px'],
                             [
                                 'type' => 'number',
                                 'name' => 'weight',
-                                'label' => lang('商品重量（kg）'), 
+                                'label' => lang('商品重量（kg）'),
                             ],
                             [
                                 'type' => 'number',
                                 'name' => 'length',
-                                'label' => lang('长度（cm）'), 
+                                'label' => lang('长度（cm）'),
                             ],
                             [
                                 'type' => 'number',
                                 'name' => 'width',
-                                'label' => lang('宽度（cm）'), 
+                                'label' => lang('宽度（cm）'),
                             ],
                             [
                                 'type' => 'number',
                                 'name' => 'height',
-                                'label' => lang('高度（cm）'), 
+                                'label' => lang('高度（cm）'),
                             ],
 
                             [
                                 'type' => 'select',
                                 'name' => 'freight_template_id',
                                 'label' => lang('运费模板'),
-                                'value' => 'freight_template', 
+                                'value' => 'freight_template',
                             ],
                             ['type' => 'close']
                         ]);

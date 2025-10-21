@@ -13,16 +13,23 @@ $module_info = [
 	'email' => '68103403@qq.com',
 	'author' => 'sunkangchina',
 	// 依赖模块
-	'depends' => [ 
-        'green_text',
+	'depends' => [
+		'green_text',
 		'cart'
-    ], 
-]; 
+	],
+];
 
- 
 
-Menu::setGroup('admin'); 
-Menu::add('source', '资源', '', 'bi-suit-club', 900); 
+
+Menu::setGroup('admin');
+Menu::add('source', '资源', '', 'bi-suit-club', 900);
 Menu::add('comment', '评论', '/comment/admin', 'bi-chat-dots', 60, 'source');
- 
- 
+
+/**
+ * 评论数
+ */
+function get_comment_count($nid, $type)
+{
+	$count = db_get_count("comment", ['nid' => $nid, 'type' => $type, 'status' => 'complete']);
+	return $count;
+}

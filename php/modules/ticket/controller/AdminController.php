@@ -9,8 +9,7 @@ class AdminController extends \core\AdminController
     use TicketTrait;
     
     protected $model = [
-        'ticket' => '\modules\ticket\model\TicketModel',
-        'store' => '\modules\store\model\StoreModel',
+        'ticket' => '\modules\ticket\model\TicketModel', 
     ];
 
     // 添加用户标签属性

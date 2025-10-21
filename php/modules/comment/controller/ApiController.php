@@ -39,9 +39,9 @@ class ApiController extends \core\ApiController
         ];
         if ($nid) {
             $where['nid'] = $nid;
-        }  
+        }
         $res = $this->model->comment->pager($where);
-        
+
         json($res);
     }
     /**
@@ -78,6 +78,7 @@ class ApiController extends \core\ApiController
             new OA\Parameter(name: 'type', description: '评论类型', in: 'query', schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'content', description: '评论内容', in: 'query', schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'images', description: '评论图片', in: 'query', schema: new OA\Schema(type: 'array')),
+            new OA\Parameter(name: 'goods_id', description: '商品ID', in: 'query', schema: new OA\Schema(type: 'integer')),
         ],
     )]
     public function actionDoComment()
@@ -89,7 +90,11 @@ class ApiController extends \core\ApiController
         if (!$nid || !$type || !$content) {
             json_error(['msg' => lang('参数错误')]);
         }
-
+        if ($images) {
+            if (!is_array($images)) {
+                $images = [$images];
+            }
+        }
         $data = [
             'nid' => $nid,
             'type' => $type,
@@ -98,6 +103,7 @@ class ApiController extends \core\ApiController
             'created_at' => time(),
             'user_id' => $this->uid,
             'ip' => get_ip(),
+            'goods_id' => $this->post_data['goods_id'] ?: 0,
         ];
         $this->model->comment->insert($data);
         json_success(['msg' => lang('评论成功')]);
@@ -106,7 +112,7 @@ class ApiController extends \core\ApiController
      * 评论回复
      */
     #[OA\Post(
-        path: '/comment/api/do_reply',
+        path: '/comment/api/do-reply',
         summary: '评论回复',
         tags: ['评论'],
         parameters: [

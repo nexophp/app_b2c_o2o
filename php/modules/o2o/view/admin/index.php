@@ -40,7 +40,7 @@ $orderModel = new OrderModel();
 $vue->data("statusOptions", $orderModel->getStatusOptions());
 $vue->data("paymentTypes", $orderModel->getPaymentTypes());
 
-$vue->created(["load()", "loadStats()", "loadPaymentTypes()", "loadLogisticCompanies()"]);
+$vue->created(["load()", "loadStats()", "loadPaymentTypes()", "loadLogisticCompanies()", "loop()"]);
 
 $vue->method("load()", "
 this.height = 'calc(100vh - 130px - " . get_config('admin_table_height') . "px)';
@@ -207,6 +207,16 @@ switch(action) {
         break; 
 }
 ");
+/**
+ * 定时加载 load_list 
+ */
+$vue->method("loop()", " 
+    this.loop_data = setInterval(() => {
+        this.load_list();
+    }, 5000);
+");
+
+
 ?>
 
 <div class="container-fluid">
@@ -451,7 +461,18 @@ echo element("pager", [
             </thead>
             <tbody>
                 <tr v-for="item in orderDetail.items" :key="item.id">
-                    <td>{{ item.title }}</td>
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            <div style="margin-right: 10px;">
+                                <img :src="item.image" alt="" width="50" height="50">
+                            </div>
+                            <div>
+                                {{ item.title }}
+                                <p v-if="item.spec||''">{{ item.spec }}</p>
+                                <p v-if="item.attr||''">{{ item.attr }}</p>
+                            </div>
+                        </div>
+                    </td>
                     <td>￥{{ item.price }}</td>
                     <td>{{ item.num }}</td>
                     <td>￥{{ item.amount }}</td>

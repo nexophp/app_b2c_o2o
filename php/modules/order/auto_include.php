@@ -21,7 +21,7 @@ Menu::setGroup('admin');
 
 // 添加顶级菜单
 Menu::add('source', '资源', '', 'bi-suit-club', 900);
-Menu::add('order-admin-1', '商城订单', '/order/admin', '', 1000, 'source');
+//Menu::add('order-admin-1', '商城订单', '/order/admin', '', 1000, 'source');
 Menu::add('order-refund', '订单售后', '/order/refund', '', 200, 'source');
 
 

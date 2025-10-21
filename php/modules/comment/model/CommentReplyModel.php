@@ -52,6 +52,14 @@ class CommentReplyModel extends \core\AppModel
         }
         $avatar = $user['avatar'] ?: cdn() . '/misc/img/avatar.png';
         $data['user_avatar'] = $avatar;
-        $data['user_name'] = '匿名用户';
+        $data['user_name'] = $user['nickname'] ?: '匿名用户';
+
+        $data['timeago'] = timeago($data['created_at']);
+
+        $type = g("comment_type") ?: 'default';
+        if (function_exists('is_like')) {
+            $data['is_like'] = is_like($data['id'], $type, $uid);
+            $data['like'] = get_like_count($data['id'], $type);
+        }
     }
 }

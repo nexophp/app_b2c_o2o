@@ -54,7 +54,7 @@
 			},
 			title: {
 				type: String,
-				default: 'xhadmin.cn隐私保护指引'
+				default: '隐私保护指引'
 			}
 		},
 		data() {
@@ -67,6 +67,7 @@
 			let _this = this
 			wx.getPrivacySetting({
 				success(res) {
+					console.log('弹出授权协议',res.errMsg)
 					if (res.errMsg == "getPrivacySetting:ok") {
 						// 弹出隐私授权协议
 						_this.show_privacy = res.needAuthorization

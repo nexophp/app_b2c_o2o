@@ -53,6 +53,8 @@ CREATE TABLE IF NOT EXISTS `product` (
 
   `recommend` int DEFAULT '0' COMMENT '商品推荐',
   `recommend_at` int DEFAULT '0' COMMENT '推荐时间',
+
+  `spec_names` JSON DEFAULT NULL COMMENT '商品规格名称',
   
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4  COMMENT '商品表';
@@ -61,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 CREATE TABLE IF NOT EXISTS `product_spec` (
   `id` int NOT NULL AUTO_INCREMENT,
   `product_id` int NOT NULL COMMENT '商品ID',
+  `spec_values` JSON DEFAULT NULL COMMENT '规格值',
   `title` varchar(255)  DEFAULT NULL COMMENT '规格名称',  
   `sku` varchar(255)  DEFAULT NULL COMMENT '商品唯一码',  
   `image` varchar(255)  DEFAULT NULL COMMENT '规格图片', 

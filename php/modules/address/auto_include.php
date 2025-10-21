@@ -1,7 +1,5 @@
 <?php
 
-use core\Menu;
-
 /**
  * 模块信息
  */

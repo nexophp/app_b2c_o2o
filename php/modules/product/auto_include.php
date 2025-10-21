@@ -144,6 +144,7 @@ function get_product_price($product_id, $spec = '')
 		]);
 		return $res['price'] ?? 0;
 	} else {
+		$spec = trim($spec); 
 		$res = db_get_one("product_spec", "*", [
 			'product_id' => $product_id,
 			'title' => $spec,

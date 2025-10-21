@@ -40,15 +40,18 @@ class OrderItemModel extends \core\AppModel
     public function beforeSave(&$data)
     {
         parent::beforeSave($data);
-
-        // 计算总价
+        
         if (isset($data['price']) && isset($data['num'])) {
-            $data['amount'] = $data['price'] * $data['num'];
+            $data['amount'] = bcmul($data['price'], $data['num'], 2);
         }
 
-        // 设置创建时间
-        if (empty($data['id'])) {
+        if (!$data['id']) {
             $data['created_at'] = time();
+            $data['can_refund_num'] = $data['num'];
+            $data['refund_num'] = 0;
+            $data['can_refund_amount'] = $data['real_amount'];
+            $data['has_refund_amount'] = 0;
+            $data['real_get_amount'] = $data['real_amount'];
         }
         $data['updated_at'] = time();
     }

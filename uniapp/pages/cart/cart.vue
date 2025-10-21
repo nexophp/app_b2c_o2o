@@ -18,7 +18,7 @@
 				<uni-swipe-action-item :right-options="swipeOptions" @click="swipeClick($event, index)">
 					<view class="cart-item">
 						<view class="item-checkbox" @click="toggleSelect(index)">
-							<text class="checkbox" :class="{ checked: item.selected }">{{ item.selected ? '✓' : '○'
+							<text class="checkbox" :class="{ checked: item.selected == 1 }">{{ item.selected ? '✓' : '○'
 								}}</text>
 						</view>
 						<image class="item-image" :src="item.image" mode="aspectFill"></image>
@@ -156,7 +156,12 @@ export default {
 		},
 		toggleSelect(index) {
 			const item = this.cartList[index]
-			const newSelected = !item.selected
+			let newSelected = 0
+			if(item.selected == 1){
+				newSelected = 0
+			}else{
+				newSelected = 1
+			} 
 			this.updateSelected(item.id, newSelected, index)
 		},
 		toggleSelectAll() {

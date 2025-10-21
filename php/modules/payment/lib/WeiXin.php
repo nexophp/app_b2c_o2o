@@ -93,7 +93,7 @@ class WeiXin
             'appid' => $appid,
             'mchid' => self::$config['mch_id'],
             'out_trade_no' => $order_num,
-            'notify_url' => host() . url('/payment/api-weixin/notify', ['order_num' => $order_num]),
+            'notify_url' => host() . url('/payment/api-weixin/notify'),
             "amount" => [
                 "total" => (int) $total_fee,
                 "currency" => get_config("currency"),
@@ -225,29 +225,36 @@ class WeiXin
      */
     public static function notify()
     {
-        self::init();
-        $app = self::$app;
-        $server = $app->getServer();
-        $server->handlePaid(function (\EasyWeChat\Pay\Message $message, \Closure $next) use ($app) {
-            $out_trade_no = $message->out_trade_no;
-            $transaction_id = $message->transaction_id;
-            $openid = $message->payer['openid'] ?? '';
-            $cache_key = "wx_pay:" . $transaction_id;
-            $exists = cache($cache_key);
-            if ($exists) {
-                add_log("微信支付重复推送", 'transaction_id:' . $transaction_id, 'error');
-                return;
-            }
-            cache($cache_key, 1, 86400 * 2);
-            try {
-                $app->getValidator()->validate($app->getRequest());
-                self::query($out_trade_no);
-            } catch (\Exception $e) {
-                add_log('支付异步通知异常', $e->getMessage(), 'error');
-            }
-            return $next($message);
-        });
-        return $server->serve();
+        add_log("通知", "微信支付异步通知", 'info');
+        try {
+            self::init();
+            $app = self::$app;
+            $server = $app->getServer();
+            $server->handlePaid(function (\EasyWeChat\Pay\Message $message, \Closure $next) use ($app) {
+                $out_trade_no = $message->out_trade_no;
+                $transaction_id = $message->transaction_id;
+                $openid = $message->payer['openid'] ?? '';
+                $cache_key = "wx_pay:" . $transaction_id;
+                $exists = cache($cache_key);
+                if ($exists) {
+                    add_log("微信支付重复推送", 'transaction_id:' . $transaction_id, 'error');
+                    return;
+                }
+
+                add_log("成功", 'transaction_id:' . $transaction_id, 'info');
+                cache($cache_key, 1, 86400 * 2);
+                try {
+                    $app->getValidator()->validate($app->getRequest());
+                    self::query($out_trade_no);
+                } catch (\Exception $e) {
+                    add_log('支付异步通知异常', $e->getMessage(), 'error');
+                }
+                return $next($message);
+            });
+            return $server->serve();
+        } catch (\Exception $e) {
+            add_log('支付异步通知异常', $e->getMessage(), 'error');
+        }
     }
     /***
      *  查询订单（商户订单号） 
@@ -282,7 +289,7 @@ class WeiXin
             add_log('微信支付查寻', $data, 'debug');
             do_action('payment_success', $data);
             $res['is_paid'] = true;
-        }else{
+        } else {
             $res['is_paid'] = false;
         }
         return $res;

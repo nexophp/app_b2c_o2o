@@ -239,7 +239,7 @@ export default {
 
 .product-image {
     width: 100%;
-    height: 200rpx;
+    height: 300rpx;
     background-color: #f5f5f5;
 }
 
